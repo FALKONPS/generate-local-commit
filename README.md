@@ -1,65 +1,91 @@
-# git-commit-local README
+# Git Commit Local
 
-This is the README for your extension "git-commit-local". After writing up a brief description, we recommend including the following sections.
+A VSCode extension that generates commit messages using local [Ollama](https://ollama.com/) models, providing privacy and flexibility.
+
+[![Ollama GitHub](https://img.shields.io/badge/Ollama-GitHub-181717?style=flat&logo=github)](https://github.com/ollama/ollama)
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+- Generate commit messages privately using locally-hosted Ollama models
+- Fully customizable prompt templates
+- Configure temperature and token settings to control generation style
+- Works with staged or unstaged changes
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+- [Ollama](https://ollama.com/) installed and running locally
+- Default model: `qwen2.5:3b` (can be changed in settings)
+- Git installed and accessible from the command line
+- A Git repository initialized in your workspace
+
+## Installation
+
+1. Ensure Ollama is running locally
+2. Pull your preferred model with Ollama (e.g., `ollama pull qwen2.5:3b`)
+3. Configure the extension settings if needed
+
+## Usage
+
+1. Make changes to your files in a Git repository
+2. Stage your changes (optional)
+3. Open the Source Control view in VSCode (`Ctrl+Shift+G`)
+4. Click the "Generate Commit Message using Ollama" button in the SCM title menu
+5. The generated commit message will be inserted into the commit message input box
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+This extension contributes the following settings that you can customize:
 
-For example:
+| Setting | Description | Default |
+|---------|-------------|---------|
+| `git-commit-local.endpoint` | Ollama API endpoint URL | `http://localhost:11434` |
+| `git-commit-local.model` | Ollama model to use | `qwen2.5:3b` |
+| `git-commit-local.maxTokens` | Maximum tokens to generate | `300` |
+| `git-commit-local.temperature` | Temperature for generation (higher is more creative) | `0.2` |
+| `git-commit-local.promptTemplate` | Template for the prompt with `${diff}` placeholder | *(See below)* |
+| `git-commit-local.useConventionalCommits` | Follow conventional commits format | `true` |
+| `git-commit-local.showDiffConfirmation` | Show confirmation dialog with diff before generating | `false` |
 
-This extension contributes the following settings:
+## Accessing Settings
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+You can access the extension settings in three ways:
 
-## Known Issues
+- Click the "Open Git Commit Local Settings" button in the Source Control view
+- Go to File → Preferences → Settings and search for "git-commit-local"
+- Use the command palette (`Ctrl+Shift+P`) and type "Open Git Commit Local Settings"
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+## Customizing the Prompt
 
-## Release Notes
+You can customize the prompt template in settings. The `${diff}` placeholder will be replaced with the actual git diff.
 
-Users appreciate release notes as you update your extension.
+**Example prompt template:**
 
-### 1.0.0
+```
+You are an AI assistant specialized in creating concise and meaningful git commit messages. When provided with a git diff, your task is to generate a clear commit message following the conventional commit format.
 
-Initial release of ...
+Your commit messages should:
+1. Follow the pattern: type(optional scope): description
+2. Use one of these types: feat, fix, docs, style, refactor, perf, test, build, ci, chore
+3. Focus on WHAT changed and WHY, not HOW it was implemented
+4. Be under 50 characters whenever possible
+5. Use imperative, present tense (e.g., "add feature" not "added feature")
 
-### 1.0.1
+Types explained:
+- feat: A new feature or significant enhancement
+- fix: A bug fix
+- docs: Documentation changes only
+- style: Changes that don't affect code meaning (formatting, whitespace)
+- refactor: Code changes that neither fix bugs nor add features
+- perf: Performance improvements
+- test: Adding or correcting tests
+- build: Changes to build system or dependencies
+- ci: Changes to CI configuration/scripts  
+- chore: Routine maintenance tasks, dependency updates
 
-Fixed issue #.
+Git diff:
+${diff}
+```
 
-### 1.1.0
+## License
 
-Added features X, Y, and Z.
-
----
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+This extension is licensed under the [MIT License](LICENSE).
