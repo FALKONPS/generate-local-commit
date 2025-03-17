@@ -10,6 +10,7 @@ A VSCode extension that generates commit messages using local [Ollama](https://o
 - Fully customizable prompt templates
 - Configure temperature and token settings to control generation style
 - Works with staged or unstaged changes
+- Adjustable context range to include lines before and after changes
 
 ## Requirements
 
@@ -36,15 +37,16 @@ A VSCode extension that generates commit messages using local [Ollama](https://o
 
 This extension contributes the following settings that you can customize:
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| `git-commit-local.endpoint` | Ollama API endpoint URL | `http://localhost:11434` |
-| `git-commit-local.model` | Ollama model to use | `qwen2.5:3b` |
-| `git-commit-local.maxTokens` | Maximum tokens to generate | `300` |
-| `git-commit-local.temperature` | Temperature for generation (higher is more creative) | `0.2` |
-| `git-commit-local.promptTemplate` | Template for the prompt with `${diff}` placeholder | *(See below)* |
-| `git-commit-local.useConventionalCommits` | Follow conventional commits format | `true` |
-| `git-commit-local.showDiffConfirmation` | Show confirmation dialog with diff before generating | `false` |
+| Setting                                   | Description                                                    | Default                  |
+| ----------------------------------------- | -------------------------------------------------------------- | ------------------------ |
+| `git-commit-local.endpoint`               | Ollama API endpoint URL                                        | `http://localhost:11434` |
+| `git-commit-local.model`                  | Ollama model to use                                            | `qwen2.5:3b`             |
+| `git-commit-local.maxTokens`              | Maximum tokens to generate                                     | `300`                    |
+| `git-commit-local.temperature`            | Temperature for generation (higher is more creative)           | `0.2`                    |
+| `git-commit-local.contextRange`           | Number of context lines to include above and below each change | `3`                      |
+| `git-commit-local.promptTemplate`         | Template for the prompt with `${diff}` placeholder             | _(See below)_            |
+| `git-commit-local.useConventionalCommits` | Follow conventional commits format                             | `true`                   |
+| `git-commit-local.showDiffConfirmation`   | Show confirmation dialog with diff before generating           | `false`                  |
 
 ## Accessing Settings
 
@@ -53,6 +55,20 @@ You can access the extension settings in three ways:
 - Click the "Open Git Commit Local Settings" button in the Source Control view
 - Go to File → Preferences → Settings and search for "git-commit-local"
 - Use the command palette (`Ctrl+Shift+P`) and type "Open Git Commit Local Settings"
+
+## Context Range Feature
+
+The context range setting allows you to include additional lines of code above and below each change in the diff. This provides more context to the model, helping it understand the changes better and generate more accurate commit messages.
+
+For example:
+
+- Setting `contextRange` to `5` will include 5 lines before and 5 lines after each changed section
+- Setting `contextRange` to `0` will only include the changed lines themselves
+
+Increasing the context range can be particularly useful when:
+
+- Working with complex code where understanding surrounding context is important
+- Making small changes in large functions
 
 ## Customizing the Prompt
 
@@ -69,6 +85,7 @@ Your commit messages should:
 3. Focus on WHAT changed and WHY, not HOW it was implemented
 4. Be under 50 characters whenever possible
 5. Use imperative, present tense (e.g., "add feature" not "added feature")
+6. Generate the git commit message inside [COMMIT][/COMMIT] tags based on the content of the diff provided inside [DIFF][/DIFF] tags
 
 Types explained:
 - feat: A new feature or significant enhancement
@@ -79,11 +96,10 @@ Types explained:
 - perf: Performance improvements
 - test: Adding or correcting tests
 - build: Changes to build system or dependencies
-- ci: Changes to CI configuration/scripts  
+- ci: Changes to CI configuration/scripts
 - chore: Routine maintenance tasks, dependency updates
 
-Git diff:
-${diff}
+[DIFF]${diff}[/DIFF]
 ```
 
 ## License
