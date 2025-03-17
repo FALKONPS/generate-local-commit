@@ -1,7 +1,8 @@
 {
   "name": "git-commit-local",
   "displayName": "Git Commit Local",
-  "description": "Generate commit messages locally using Ollama API with Qwen2.5:3b model",
+  "description": "Generate commit messages locally using Ollama API",
+  "publisher": "falkonps",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.98.0"
