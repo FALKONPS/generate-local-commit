@@ -1,26 +1,102 @@
 {
   "name": "git-commit-local",
-  "displayName": "git-commit-local",
-  "description": "",
+  "displayName": "Git Commit Local",
+  "description": "Generate commit messages locally using Ollama API with Qwen2.5:3b model",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.98.0"
   },
   "categories": [
-    "Other"
+    "Other",
+    "SCM Providers"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onCommand:git-commit-local.generateCommitMessage",
+    "onCommand:git-commit-local.openSettings"
+  ],
   "main": "./extension.js",
   "contributes": {
-    "commands": [{
-      "command": "git-commit-local.helloWorld",
-      "title": "Hello World"
-    }]
+    "commands": [
+      {
+        "command": "git-commit-local.generateCommitMessage",
+        "title": "Generate Commit Message using Ollama"
+      },
+      {
+        "command": "git-commit-local.openSettings",
+        "title": "Open Git Commit Local Settings"
+      }
+    ],
+    "menus": {
+      "scm/title": [
+        {
+          "when": "scmProvider == 'git'",
+          "command": "git-commit-local.generateCommitMessage",
+          "group": "navigation"
+        },
+        {
+          "when": "scmProvider == 'git'",
+          "command": "git-commit-local.openSettings",
+          "group": "2_configure"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "git-commit-local.generateCommitMessage",
+          "when": "workbenchState != empty"
+        },
+        {
+          "command": "git-commit-local.openSettings"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Git Commit Local",
+      "properties": {
+        "git-commit-local.endpoint": {
+          "type": "string",
+          "default": "http://localhost:11434",
+          "description": "Ollama API endpoint URL"
+        },
+        "git-commit-local.model": {
+          "type": "string",
+          "default": "qwen2.5:3b",
+          "description": "Ollama model to use for generating commit messages"
+        },
+        "git-commit-local.maxTokens": {
+          "type": "number",
+          "default": 300,
+          "description": "Maximum number of tokens to generate"
+        },
+        "git-commit-local.temperature": {
+          "type": "number",
+          "default": 0.2,
+          "minimum": 0,
+          "maximum": 2,
+          "description": "Temperature for text generation (higher means more creative, lower means more deterministic)"
+        },
+        "git-commit-local.promptTemplate": {
+          "type": "string",
+          "default": "You are an AI assistant specialized in creating concise and meaningful git commit messages. When provided with a git diff, your task is to generate a clear commit message following the conventional commit format.\n\nYour commit messages should:\n1. Follow the pattern: type(optional scope): description\n2. Use one of these types: feat, fix, docs, style, refactor, perf, test, build, ci, chore\n3. Focus on WHAT changed and WHY, not HOW it was implemented\n4. Be under 50 characters whenever possible\n5. Use imperative, present tense (e.g., \"add feature\" not \"added feature\")\n\nTypes explained:\n- feat: A new feature or significant enhancement\n- fix: A bug fix\n- docs: Documentation changes only\n- style: Changes that don't affect code meaning (formatting, whitespace)\n- refactor: Code changes that neither fix bugs nor add features\n- perf: Performance improvements\n- test: Adding or correcting tests\n- build: Changes to build system or dependencies\n- ci: Changes to CI configuration/scripts\n- chore: Routine maintenance tasks, dependency updates\n\nGit diff:\n${diff}",
+          "description": "Template for the prompt sent to Ollama (${diff} will be replaced with the actual diff)"
+        },
+        "git-commit-local.useConventionalCommits": {
+          "type": "boolean",
+          "default": true,
+          "description": "Follow conventional commits format (e.g., feat:, fix:, docs:)"
+        },
+        "git-commit-local.showDiffConfirmation": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show a confirmation dialog with the diff before generating the commit message"
+        }
+      }
+    }
   },
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "package": "vsce package"
   },
   "devDependencies": {
     "@types/vscode": "^1.98.0",
@@ -28,6 +104,10 @@
     "@types/node": "20.x",
     "eslint": "^9.21.0",
     "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1"
+    "@vscode/test-electron": "^2.4.1",
+    "@vscode/vsce": "^2.15.0"
+  },
+  "dependencies": {
+    "axios": "^1.8.3"
   }
 }
