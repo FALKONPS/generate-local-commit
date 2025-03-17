@@ -2,7 +2,8 @@
 
 A VSCode extension that generates commit messages using local [Ollama](https://ollama.com/) models, providing privacy and flexibility.
 
-[![Ollama GitHub](https://img.shields.io/badge/Ollama-GitHub-181717?style=flat&logo=github)](https://github.com/ollama/ollama)
+[![Ollama GitHub](https://img.shields.io/badge/Ollama-GitHub-181717?style=for-the-badge&logo=github)](https://github.com/ollama/ollama)
+[![VS Code Marketplace](https://img.shields.io/badge/VS_Code-Marketplace-007ACC?style=for-the-badge&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=falkonps.git-commit-local)
 
 ## Features
 
