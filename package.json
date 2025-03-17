@@ -15,11 +15,16 @@
     "onCommand:git-commit-local.openSettings"
   ],
   "main": "./extension.js",
+  "icon": "ollama.png",
   "contributes": {
     "commands": [
       {
         "command": "git-commit-local.generateCommitMessage",
-        "title": "Generate Commit Message using Ollama"
+        "title": "Generate Commit Message using Ollama",
+        "icon": {
+          "light": "ollama.png",
+          "dark": "ollama.png"
+        }
       },
       {
         "command": "git-commit-local.openSettings",
