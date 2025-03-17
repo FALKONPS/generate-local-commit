@@ -38,9 +38,11 @@ function activate(context) {
           config.get('useConventionalCommits') !== false;
         const showDiffConfirmation =
           config.get('showDiffConfirmation') || false;
+        // Get the context range from settings
+        const contextRange = config.get('contextRange') || 0;
 
-        // Get git diff to analyze changes
-        const diff = await getGitDiff();
+        // Get git diff to analyze changes with context
+        const diff = await getGitDiff(contextRange);
         if (!diff) {
           vscode.window.showInformationMessage('No changes to commit.');
           return;
@@ -98,7 +100,7 @@ Types explained:
 - build: Changes to build system or dependencies
 - ci: Changes to CI configuration/scripts
 - chore: Routine maintenance tasks, dependency updates
-[DIFF]${diff}[/DIFF]
+[DIFF]\${diff}[/DIFF]
 			`;
             }
 
@@ -191,9 +193,10 @@ Types explained:
 }
 
 /**
- * Get the git diff of staged changes
+ * Get the git diff of staged changes with additional context lines
+ * @param {number} contextRange - Number of context lines to include above and below changes
  */
-async function getGitDiff() {
+async function getGitDiff(contextRange = 0) {
   try {
     const rootPath = vscode.workspace.workspaceFolders[0].uri.fsPath;
 
@@ -213,13 +216,17 @@ async function getGitDiff() {
         return null; // No changes at all
       }
 
-      // Get diff of unstaged changes
-      const { stdout: diff } = await exec('git diff', { cwd: rootPath });
+      // Get diff of unstaged changes with context
+      const { stdout: diff } = await exec(`git diff -U${contextRange}`, {
+        cwd: rootPath,
+      });
       return diff;
     }
 
-    // Get diff of staged changes
-    const { stdout: diff } = await exec('git diff --staged', { cwd: rootPath });
+    // Get diff of staged changes with context
+    const { stdout: diff } = await exec(`git diff --staged -U${contextRange}`, {
+      cwd: rootPath,
+    });
     return diff;
   } catch (error) {
     console.error('Git diff error:', error);

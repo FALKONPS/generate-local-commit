@@ -84,6 +84,13 @@
           "maximum": 2,
           "description": "Temperature for text generation (higher means more creative, lower means more deterministic)"
         },
+        "git-commit-local.contextRange": {
+          "type": "number",
+          "default": 3,
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Number of context lines to include above and below each change in the diff"
+        },
         "git-commit-local.promptTemplate": {
           "type": "string",
           "default": "You are an AI assistant specialized in creating concise and meaningful git commit messages. When provided with a git diff, your task is to generate a clear commit message following the conventional commit format.\n\nYour commit messages should:\n1. Follow the pattern: type(optional scope): description\n2. Use one of these types: feat, fix, docs, style, refactor, perf, test, build, ci, chore\n3. Focus on WHAT changed and WHY, not HOW it was implemented\n4. Be under 50 characters whenever possible\n5. Use imperative, present tense (e.g., \"add feature\" not \"added feature\")\n\nTypes explained:\n- feat: A new feature or significant enhancement\n- fix: A bug fix\n- docs: Documentation changes only\n- style: Changes that don't affect code meaning (formatting, whitespace)\n- refactor: Code changes that neither fix bugs nor add features\n- perf: Performance improvements\n- test: Adding or correcting tests\n- build: Changes to build system or dependencies\n- ci: Changes to CI configuration/scripts\n- chore: Routine maintenance tasks, dependency updates\n\nGit diff:\n${diff}",
