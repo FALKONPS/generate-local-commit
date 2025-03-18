@@ -1,4 +1,4 @@
-name: Publish VS Code Extension
+name: Publish to VS Code Marketplace
 
 on:
   # Manual trigger
@@ -11,8 +11,6 @@ jobs:
       # Check out the repository
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       # Setup Node.js environment
       - name: Setup Node.js
@@ -26,8 +24,7 @@ jobs:
         run: npm ci
 
       # Publish to Visual Studio Marketplace
-      - name: Publish to Visual Studio Marketplace
-        id: publishToMarketplace
+      - name: Publish to Marketplace
         uses: HaaLeo/publish-vscode-extension@v2
         with:
           pat: ${{ secrets.VS_MARKETPLACE_TOKEN }}
