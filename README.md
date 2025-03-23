@@ -27,6 +27,7 @@ A VSCode extension that generates commit messages using local [Ollama](https://o
 3. Configure the extension settings if needed
 
 ## Usage
+![image](https://github.com/user-attachments/assets/e5413925-7c73-4eb4-95df-1e6019222136)
 
 1. Make changes to your files in a Git repository
 2. Stage your changes (optional)
