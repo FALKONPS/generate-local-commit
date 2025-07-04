@@ -1,5 +1,5 @@
 /**
- * Configuration constants for Git Commit Local extension
+ * Configuration constants for Generate Local Commit extension
  */
 
 const DEFAULT_CONFIG = {
