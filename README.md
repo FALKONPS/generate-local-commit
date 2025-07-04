@@ -12,6 +12,9 @@ A VSCode extension that generates commit messages using local [Ollama](https://o
 - Configure temperature and token settings to control generation style
 - Works with staged or unstaged changes
 - Adjustable context range to include lines before and after changes
+- **Enhanced commit message functionality** - enhance or reduce existing commit messages
+- **Max Tokens control** - normal mode (300 tokens) for regular use, thick mode (30,000 tokens) for complex diffs
+- **Quick Actions sidebar** - convenient access to all settings and actions from the activity bar
 
 ## Requirements
 
@@ -27,9 +30,10 @@ A VSCode extension that generates commit messages using local [Ollama](https://o
 3. Configure the extension settings if needed
 
 ## Usage
+![image](https://github.com/user-attachments/assets/fec5e6ba-2896-460b-bc17-9fba2c1262f0)
+![image](https://github.com/user-attachments/assets/d8c04c5c-ea9f-47e9-a997-3a8a85e618e2)
 
-![image](https://github.com/user-attachments/assets/e5413925-7c73-4eb4-95df-1e6019222136)
-![image](https://github.com/user-attachments/assets/900112fa-f868-4d27-8a73-3fdaa9e390bf)
+### Basic Usage
 
 1. Make changes to your files in a Git repository
 2. Stage your changes (optional)
@@ -37,28 +41,67 @@ A VSCode extension that generates commit messages using local [Ollama](https://o
 4. Click the "Generate Commit Message using Ollama" button in the SCM title menu
 5. The generated commit message will be inserted into the commit message input box
 
+### Quick Actions Sidebar
+
+The extension provides a convenient Quick Actions sidebar in the activity bar:
+
+**Model Management:**
+- View current active model
+- Change model quickly
+- List all available models
+- Pull new models from Ollama registry
+
+**Quick Settings:**
+- View and change Ollama endpoint
+- Adjust temperature (creativity level)
+- **Set Max Tokens** - Choose between normal mode (300 tokens) or thick mode (30,000 tokens) for complex diffs
+- Access full settings UI
+
+**System Actions:**
+- Generate commit messages
+- **Enhance commit messages** - Make existing messages more detailed and professional
+- **Reduce commit messages** - Shorten messages while preserving meaning
+- Reset all settings to defaults
+
+### Message Enhancement Features
+
+- **Enhance**: Transform basic commit messages into detailed, professional ones following Git best practices
+- **Reduce**: Shorten lengthy commit messages to meet Git's 50-character recommendation while preserving core meaning
+
 ## Extension Settings
 
 This extension contributes the following settings that you can customize:
 
 | Setting                                   | Description                                                    | Default                  |
 | ----------------------------------------- | -------------------------------------------------------------- | ------------------------ |
-| `git-commit-local.endpoint`               | Ollama API endpoint URL                                        | `http://localhost:11434` |
-| `git-commit-local.model`                  | Ollama model to use                                            | `qwen2.5:3b`             |
-| `git-commit-local.maxTokens`              | Maximum tokens to generate                                     | `300`                    |
-| `git-commit-local.temperature`            | Temperature for generation (higher is more creative)           | `0.2`                    |
-| `git-commit-local.contextRange`           | Number of context lines to include above and below each change | `3`                      |
-| `git-commit-local.promptTemplate`         | Template for the prompt with `${diff}` placeholder             | _(See below)_            |
-| `git-commit-local.useConventionalCommits` | Follow conventional commits format                             | `true`                   |
-| `git-commit-local.showDiffConfirmation`   | Show confirmation dialog with diff before generating           | `false`                  |
+| `generate-local-commit.endpoint`               | Ollama API endpoint URL                                        | `http://localhost:11434` |
+| `generate-local-commit.model`                  | Ollama model to use                                            | `qwen2.5:3b`             |
+| `generate-local-commit.maxTokens`              | Maximum tokens to generate (300 normal, 30000 thick mode)     | `300`                    |
+| `generate-local-commit.temperature`            | Temperature for generation (higher is more creative)           | `0.2`                    |
+| `generate-local-commit.contextRange`           | Number of context lines to include above and below each change | `3`                      |
+| `generate-local-commit.promptTemplate`         | Template for the prompt with `${diff}` placeholder             | _(See below)_            |
+| `generate-local-commit.useConventionalCommits` | Follow conventional commits format                             | `true`                   |
+| `generate-local-commit.showDiffConfirmation`   | Show confirmation dialog with diff before generating           | `false`                  |
+| `generate-local-commit.enhancePrompt`          | Template for enhancing commit messages with `${message}` placeholder | _(See settings)_         |
+| `generate-local-commit.reducePrompt`           | Template for reducing commit messages with `${message}` placeholder  | _(See settings)_         |
 
 ## Accessing Settings
 
-You can access the extension settings in three ways:
+You can access the extension settings in multiple ways:
 
-- Click the "Open Generate Local Commit Settings" button in the Source Control view
-- Go to File → Preferences → Settings and search for "git-commit-local"
-- Use the command palette (`Ctrl+Shift+P`) and type "Open Generate Local Commit Settings"
+- **Quick Actions Sidebar**: Click the Git Commit icon in the activity bar and use the "Open Settings UI" action
+- **Source Control View**: Click the "Open Generate Local Commit Settings" button in the SCM title menu
+- **VS Code Settings**: Go to File → Preferences → Settings and search for "generate-local-commit"
+- **Command Palette**: Use `Ctrl+Shift+P` and type "Open Generate Local Commit Settings"
+
+## Max Tokens Feature
+
+The extension now supports two token modes:
+
+- **Normal Mode (300 tokens)**: Suitable for regular commit messages and standard diffs
+- **Thick Mode (30,000 tokens)**: Designed for complex diffs with extensive changes that require more detailed analysis
+
+Use the Quick Actions sidebar to easily switch between modes based on your needs.
 
 ## Context Range Feature
 

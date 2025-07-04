@@ -6,7 +6,7 @@ const vscode = require('vscode');
 function openSettings() {
   vscode.commands.executeCommand(
     'workbench.action.openSettings',
-    'git-commit-local'
+    'generate-local-commit'
   );
 }
 

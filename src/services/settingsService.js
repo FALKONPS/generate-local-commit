@@ -1,5 +1,9 @@
 const vscode = require('vscode');
-const { DEFAULT_CONFIG, CONFIG_SECTION, VALIDATION_LIMITS } = require('../utils/constants');
+const {
+  DEFAULT_CONFIG,
+  CONFIG_SECTION,
+  VALIDATION_LIMITS,
+} = require('../utils/constants');
 
 /**
  * Service for managing extension settings
@@ -21,9 +25,15 @@ class SettingsService {
       maxTokens: config.get('maxTokens') || DEFAULT_CONFIG.maxTokens,
       temperature: config.get('temperature') || DEFAULT_CONFIG.temperature,
       contextRange: config.get('contextRange') || DEFAULT_CONFIG.contextRange,
-      promptTemplate: config.get('promptTemplate') || this.getDefaultPromptTemplate(),
+      promptTemplate:
+        config.get('promptTemplate') || this.getDefaultPromptTemplate(),
       useConventionalCommits: config.get('useConventionalCommits') !== false,
-      showDiffConfirmation: config.get('showDiffConfirmation') || DEFAULT_CONFIG.showDiffConfirmation,
+      showDiffConfirmation:
+        config.get('showDiffConfirmation') ||
+        DEFAULT_CONFIG.showDiffConfirmation,
+      enhancePrompt:
+        config.get('enhancePrompt') || this.getDefaultEnhancePrompt(),
+      reducePrompt: config.get('reducePrompt') || this.getDefaultReducePrompt(),
     };
   }
 
@@ -112,22 +122,43 @@ Types explained:
     }
 
     // Validate maxTokens
-    if (settings.maxTokens !== undefined && (settings.maxTokens < VALIDATION_LIMITS.maxTokensMin || settings.maxTokens > VALIDATION_LIMITS.maxTokensMax)) {
-      errors.push(`Max tokens must be between ${VALIDATION_LIMITS.maxTokensMin} and ${VALIDATION_LIMITS.maxTokensMax}`);
+    if (
+      settings.maxTokens !== undefined &&
+      (settings.maxTokens < VALIDATION_LIMITS.maxTokensMin ||
+        settings.maxTokens > VALIDATION_LIMITS.maxTokensMax)
+    ) {
+      errors.push(
+        `Max tokens must be between ${VALIDATION_LIMITS.maxTokensMin} and ${VALIDATION_LIMITS.maxTokensMax}`
+      );
     }
 
     // Validate temperature
-    if (settings.temperature !== undefined && (settings.temperature < VALIDATION_LIMITS.temperatureMin || settings.temperature > VALIDATION_LIMITS.temperatureMax)) {
-      errors.push(`Temperature must be between ${VALIDATION_LIMITS.temperatureMin} and ${VALIDATION_LIMITS.temperatureMax}`);
+    if (
+      settings.temperature !== undefined &&
+      (settings.temperature < VALIDATION_LIMITS.temperatureMin ||
+        settings.temperature > VALIDATION_LIMITS.temperatureMax)
+    ) {
+      errors.push(
+        `Temperature must be between ${VALIDATION_LIMITS.temperatureMin} and ${VALIDATION_LIMITS.temperatureMax}`
+      );
     }
 
     // Validate contextRange
-    if (settings.contextRange !== undefined && (settings.contextRange < VALIDATION_LIMITS.contextRangeMin || settings.contextRange > VALIDATION_LIMITS.contextRangeMax)) {
-      errors.push(`Context range must be between ${VALIDATION_LIMITS.contextRangeMin} and ${VALIDATION_LIMITS.contextRangeMax}`);
+    if (
+      settings.contextRange !== undefined &&
+      (settings.contextRange < VALIDATION_LIMITS.contextRangeMin ||
+        settings.contextRange > VALIDATION_LIMITS.contextRangeMax)
+    ) {
+      errors.push(
+        `Context range must be between ${VALIDATION_LIMITS.contextRangeMin} and ${VALIDATION_LIMITS.contextRangeMax}`
+      );
     }
 
     // Validate prompt template
-    if (settings.promptTemplate && !settings.promptTemplate.includes('${diff}')) {
+    if (
+      settings.promptTemplate &&
+      !settings.promptTemplate.includes('${diff}')
+    ) {
       errors.push('Prompt template must contain the ${diff} placeholder');
     }
 
@@ -149,6 +180,72 @@ Types explained:
     } catch {
       return false;
     }
+  }
+
+  /**
+   * Get the default enhance prompt template
+   * @returns {string} Default enhance prompt template
+   */
+  getDefaultEnhancePrompt() {
+    return `You are an expert Git developer specialized in writing professional commit messages. Your task is to enhance the provided commit message to make it more descriptive, clear, and follow Git best practices while maintaining its original intent.
+
+Git commit message enhancement guidelines:
+1. Follow the 50/72 rule: subject line ≤50 chars, body lines ≤72 chars
+2. Use conventional commit format: type(scope): description
+3. Start with imperative mood verbs (add, fix, update, remove, refactor, etc.)
+4. Capitalize the first letter of the subject line
+5. Don't end the subject line with a period
+6. Be specific about what changed and why (not how)
+7. Reference issue numbers, breaking changes, or affected components when relevant
+8. Use present tense as if completing the sentence "This commit will..."
+
+Common Git commit types:
+- feat: new feature or functionality
+- fix: bug fix or error correction
+- docs: documentation changes
+- style: formatting, whitespace, missing semicolons (no code change)
+- refactor: code restructuring without changing functionality
+- perf: performance improvements
+- test: adding or updating tests
+- build: build system or dependency changes
+- ci: continuous integration changes
+- chore: maintenance, tooling, or housekeeping
+
+Current commit message: \${message}
+
+Please provide an enhanced Git commit message that follows these best practices:`;
+  }
+
+  /**
+   * Get the default reduce prompt template
+   * @returns {string} Default reduce prompt template
+   */
+  getDefaultReducePrompt() {
+    return `You are an expert Git developer specialized in writing concise, professional commit messages. Your task is to shorten the provided commit message while preserving its core meaning and following Git best practices.
+
+Git commit message reduction guidelines:
+1. Target 50 characters or less for the subject line (Git's golden rule)
+2. Maintain conventional commit format: type(scope): description
+3. Keep imperative mood verbs (add, fix, update, remove, refactor, etc.)
+4. Preserve the commit type (feat, fix, docs, style, refactor, perf, test, build, ci, chore)
+5. Remove redundant words like "this commit", "changes", "updates"
+6. Keep essential technical details (component names, key functionality)
+7. Remove filler words (very, really, just, simply, etc.)
+8. Focus on WHAT changed, not HOW it was implemented
+9. Capitalize first letter, no ending period
+10. If multi-line, keep the most important information in the subject line
+
+Abbreviation suggestions:
+- "implement" → "add"
+- "modification" → "update"
+- "enhancement" → "improve"
+- "configuration" → "config"
+- "functionality" → "feature"
+- "documentation" → "docs"
+
+Current commit message: \${message}
+
+Please provide a shorter, more concise Git commit message following these guidelines:`;
   }
 }
 

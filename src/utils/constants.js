@@ -12,23 +12,26 @@ const DEFAULT_CONFIG = {
   showDiffConfirmation: false,
 };
 
-const CONFIG_SECTION = 'git-commit-local';
+const CONFIG_SECTION = 'generate-local-commit';
 
 const COMMAND_IDS = {
-  generateCommitMessage: 'git-commit-local.generateCommitMessage',
-  openSettings: 'git-commit-local.openSettings',
-  showCommitDiff: 'git-commit-local.showCommitDiff',
-  quickChangeModel: 'git-commit-local.quickChangeModel',
-  quickChangeEndpoint: 'git-commit-local.quickChangeEndpoint',
-  quickPullModel: 'git-commit-local.quickPullModel',
-  quickListModels: 'git-commit-local.quickListModels',
-  quickSetTemperature: 'git-commit-local.quickSetTemperature',
-  quickResetSettings: 'git-commit-local.quickResetSettings',
+  generateCommitMessage: 'generate-local-commit.generateCommitMessage',
+  openSettings: 'generate-local-commit.openSettings',
+  showCommitDiff: 'generate-local-commit.showCommitDiff',
+  quickChangeModel: 'generate-local-commit.quickChangeModel',
+  quickChangeEndpoint: 'generate-local-commit.quickChangeEndpoint',
+  quickPullModel: 'generate-local-commit.quickPullModel',
+  quickListModels: 'generate-local-commit.quickListModels',
+  quickSetTemperature: 'generate-local-commit.quickSetTemperature',
+  quickSetMaxTokens: 'generate-local-commit.quickSetMaxTokens',
+  quickResetSettings: 'generate-local-commit.quickResetSettings',
+  enhanceCommitMessage: 'generate-local-commit.enhanceCommitMessage',
+  reduceCommitMessage: 'generate-local-commit.reduceCommitMessage',
 };
 
 const VIEW_IDS = {
-  quickActionsView: 'git-commit-local.quickActionsView',
-  historyView: 'git-commit-local.historyView',
+  quickActionsView: 'generate-local-commit.quickActionsView',
+  historyView: 'generate-local-commit.historyView',
 };
 
 const VALIDATION_LIMITS = {

@@ -1,14 +1,19 @@
 const vscode = require('vscode');
 const { openSettings } = require('./commands/openSettings');
-const { generateCommitMessageCommand } = require('./commands/generateCommitMessage');
+const {
+  generateCommitMessageCommand,
+} = require('./commands/generateCommitMessage');
 const { showCommitDiff } = require('./commands/showCommitDiff');
-const { 
-  quickChangeModel, 
-  quickChangeEndpoint, 
-  quickPullModel, 
-  quickListModels, 
-  quickSetTemperature, 
-  quickResetSettings 
+const { enhanceCommitMessage } = require('./commands/enhanceCommitMessage');
+const { reduceCommitMessage } = require('./commands/reduceCommitMessage');
+const {
+  quickChangeModel,
+  quickChangeEndpoint,
+  quickPullModel,
+  quickListModels,
+  quickSetTemperature,
+  quickSetMaxTokens,
+  quickResetSettings,
 } = require('./commands/quickConfig');
 const { QuickActionsProvider } = require('./views/quickActionsProvider');
 const { HistoryViewProvider } = require('./views/historyViewProvider');
@@ -63,20 +68,39 @@ function activate(context) {
       quickSetTemperature
     );
 
+    const quickSetMaxTokensCommand = vscode.commands.registerCommand(
+      COMMAND_IDS.quickSetMaxTokens,
+      quickSetMaxTokens
+    );
+
     const quickResetSettingsCommand = vscode.commands.registerCommand(
       COMMAND_IDS.quickResetSettings,
       quickResetSettings
     );
 
+    // Register new message enhancement commands
+    const enhanceCommitMessageCommand = vscode.commands.registerCommand(
+      COMMAND_IDS.enhanceCommitMessage,
+      enhanceCommitMessage
+    );
+
+    const reduceCommitMessageCommand = vscode.commands.registerCommand(
+      COMMAND_IDS.reduceCommitMessage,
+      reduceCommitMessage
+    );
+
     // Register view providers immediately
     console.log('Registering view providers...');
-    
+
     const quickActionsProvider = new QuickActionsProvider();
     const quickActionsViewDisposable = vscode.window.registerTreeDataProvider(
       VIEW_IDS.quickActionsView,
       quickActionsProvider
     );
-    console.log('Quick actions view provider registered for:', VIEW_IDS.quickActionsView);
+    console.log(
+      'Quick actions view provider registered for:',
+      VIEW_IDS.quickActionsView
+    );
 
     const historyProvider = new HistoryViewProvider();
     const historyViewDisposable = vscode.window.registerTreeDataProvider(
@@ -95,20 +119,26 @@ function activate(context) {
       quickPullModelCommand,
       quickListModelsCommand,
       quickSetTemperatureCommand,
+      quickSetMaxTokensCommand,
       quickResetSettingsCommand,
+      enhanceCommitMessageCommand,
+      reduceCommitMessageCommand,
       quickActionsViewDisposable,
       historyViewDisposable
     );
 
     console.log('Git Commit Local extension activated successfully');
     console.log('View IDs registered:', VIEW_IDS);
-    
+
     // Show a success message
-    vscode.window.showInformationMessage('Git Commit Local extension is now active! Check the Activity Bar for the Git Commit icon.');
-    
+    vscode.window.showInformationMessage(
+      'Git Commit Local extension is now active! Check the Activity Bar for the Git Commit icon.'
+    );
   } catch (error) {
     console.error('Error activating Git Commit Local extension:', error);
-    vscode.window.showErrorMessage(`Failed to activate Git Commit Local: ${error.message}`);
+    vscode.window.showErrorMessage(
+      `Failed to activate Git Commit Local: ${error.message}`
+    );
   }
 }
 

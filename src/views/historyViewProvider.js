@@ -21,7 +21,7 @@ class HistoryViewProvider {
 
   /**
    * Get tree item for display
-   * @param {CommitItem} element 
+   * @param {CommitItem} element
    * @returns {vscode.TreeItem}
    */
   getTreeItem(element) {
@@ -30,7 +30,7 @@ class HistoryViewProvider {
 
   /**
    * Get children of tree element
-   * @param {CommitItem} element 
+   * @param {CommitItem} element
    * @returns {Promise<CommitItem[]>}
    */
   async getChildren(element) {
@@ -47,12 +47,15 @@ class HistoryViewProvider {
    */
   async getRecentCommits() {
     try {
-      if (!vscode.workspace.workspaceFolders || vscode.workspace.workspaceFolders.length === 0) {
+      if (
+        !vscode.workspace.workspaceFolders ||
+        vscode.workspace.workspaceFolders.length === 0
+      ) {
         return [new CommitItem('No workspace open', '', 'info')];
       }
 
       const rootPath = vscode.workspace.workspaceFolders[0].uri.fsPath;
-      
+
       // Get recent commits with format: hash|author|date|message
       const { stdout } = await exec(
         'git log --oneline --format="%H|%an|%ar|%s" -10',
@@ -63,22 +66,20 @@ class HistoryViewProvider {
         return [new CommitItem('No commits found', '', 'info')];
       }
 
-      const commits = stdout.trim().split('\n').map(line => {
-        const [hash, author, date, message] = line.split('|');
-        const shortHash = hash.substring(0, 7);
-        const tooltip = `${message}\n\nAuthor: ${author}\nDate: ${date}\nHash: ${shortHash}`;
-        
-        return new CommitItem(
-          `${shortHash}: ${message}`,
-          tooltip,
-          'commit',
-          {
+      const commits = stdout
+        .trim()
+        .split('\n')
+        .map((line) => {
+          const [hash, author, date, message] = line.split('|');
+          const shortHash = hash.substring(0, 7);
+          const tooltip = `${message}\n\nAuthor: ${author}\nDate: ${date}\nHash: ${shortHash}`;
+
+          return new CommitItem(`${shortHash}: ${message}`, tooltip, 'commit', {
             command: COMMAND_IDS.showCommitDiff,
             title: 'Show Diff',
-            arguments: [hash]
-          }
-        );
-      });
+            arguments: [hash],
+          });
+        });
 
       return commits;
     } catch (error) {
@@ -96,7 +97,7 @@ class CommitItem extends vscode.TreeItem {
     super(label, vscode.TreeItemCollapsibleState.None);
     this.tooltip = tooltip;
     this.command = command;
-    
+
     // Set icons based on type
     switch (type) {
       case 'commit':

@@ -21,7 +21,7 @@ class QuickActionsProvider {
 
   /**
    * Get tree item for display
-   * @param {ActionItem} element 
+   * @param {ActionItem} element
    * @returns {vscode.TreeItem}
    */
   getTreeItem(element) {
@@ -30,16 +30,28 @@ class QuickActionsProvider {
 
   /**
    * Get children of tree element
-   * @param {ActionItem} element 
+   * @param {ActionItem} element
    * @returns {Promise<ActionItem[]>}
    */
   async getChildren(element) {
     if (!element) {
       // Root level - return action categories
       return [
-        new ActionItem('Model Management', vscode.TreeItemCollapsibleState.Expanded, 'category'),
-        new ActionItem('Quick Settings', vscode.TreeItemCollapsibleState.Expanded, 'category'),
-        new ActionItem('System Actions', vscode.TreeItemCollapsibleState.Expanded, 'category'),
+        new ActionItem(
+          'Model Management',
+          vscode.TreeItemCollapsibleState.Expanded,
+          'category'
+        ),
+        new ActionItem(
+          'Quick Settings',
+          vscode.TreeItemCollapsibleState.Expanded,
+          'category'
+        ),
+        new ActionItem(
+          'System Actions',
+          vscode.TreeItemCollapsibleState.Expanded,
+          'category'
+        ),
       ];
     }
 
@@ -62,7 +74,7 @@ class QuickActionsProvider {
    */
   async getModelManagementActions() {
     const currentSettings = this.settingsService.getAllSettings();
-    
+
     return [
       new ActionItem(
         `Current: ${currentSettings.model}`,
@@ -110,7 +122,7 @@ class QuickActionsProvider {
    */
   async getQuickSettingsActions() {
     const currentSettings = this.settingsService.getAllSettings();
-    
+
     return [
       new ActionItem(
         `Endpoint: ${currentSettings.endpoint}`,
@@ -145,6 +157,23 @@ class QuickActionsProvider {
           title: 'Set Temperature',
         },
         'Adjust generation randomness'
+      ),
+      new ActionItem(
+        `Max Tokens: ${currentSettings.maxTokens}`,
+        vscode.TreeItemCollapsibleState.None,
+        'info',
+        null,
+        'Current max tokens setting'
+      ),
+      new ActionItem(
+        'Set Max Tokens',
+        vscode.TreeItemCollapsibleState.None,
+        'action',
+        {
+          command: COMMAND_IDS.quickSetMaxTokens,
+          title: 'Set Max Tokens',
+        },
+        'Change max tokens (300 normal, 30000 thick mode)'
       ),
     ];
   }
@@ -185,6 +214,26 @@ class QuickActionsProvider {
         },
         'Generate commit message for current changes'
       ),
+      new ActionItem(
+        'Enhance Git Message',
+        vscode.TreeItemCollapsibleState.None,
+        'action',
+        {
+          command: COMMAND_IDS.enhanceCommitMessage,
+          title: 'Enhance Message',
+        },
+        'Enhance existing commit message with more detail'
+      ),
+      new ActionItem(
+        'Reduce Message Length',
+        vscode.TreeItemCollapsibleState.None,
+        'action',
+        {
+          command: COMMAND_IDS.reduceCommitMessage,
+          title: 'Reduce Message',
+        },
+        'Shorten existing commit message while preserving meaning'
+      ),
     ];
   }
 }
@@ -195,18 +244,24 @@ class QuickActionsProvider {
 class ActionItem extends vscode.TreeItem {
   constructor(label, collapsibleState, type, command = null, tooltip = null) {
     super(label, collapsibleState);
-    
+
     this.command = command;
     this.tooltip = tooltip || label;
     this.contextValue = type;
-    
+
     // Set icons based on type
     switch (type) {
       case 'category':
-        this.iconPath = new vscode.ThemeIcon('folder', new vscode.ThemeColor('charts.blue'));
+        this.iconPath = new vscode.ThemeIcon(
+          'folder',
+          new vscode.ThemeColor('charts.blue')
+        );
         break;
       case 'action':
-        this.iconPath = new vscode.ThemeIcon('play', new vscode.ThemeColor('charts.green'));
+        this.iconPath = new vscode.ThemeIcon(
+          'play',
+          new vscode.ThemeColor('charts.green')
+        );
         break;
       case 'info':
         this.iconPath = new vscode.ThemeIcon('info');
