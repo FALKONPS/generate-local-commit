@@ -18,3 +18,4 @@ package-lock.json
 *.tmp
 .DS_Store
 Thumbs.db
+.trunk/**
