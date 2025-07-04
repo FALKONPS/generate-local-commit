@@ -80,6 +80,11 @@
         "command": "generate-local-commit.reduceCommitMessage",
         "title": "Reduce Message Length",
         "icon": "$(arrow-down)"
+      },
+      {
+        "command": "generate-local-commit.quickSetMaxTokens",
+        "title": "Quick: Set Max Tokens",
+        "icon": "$(symbol-numeric)"
       }
     ],
     "menus": {
@@ -136,6 +141,9 @@
         },
         {
           "command": "generate-local-commit.reduceCommitMessage"
+        },
+        {
+          "command": "generate-local-commit.quickSetMaxTokens"
         }
       ]
     },

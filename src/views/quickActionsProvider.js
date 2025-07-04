@@ -158,6 +158,23 @@ class QuickActionsProvider {
         },
         'Adjust generation randomness'
       ),
+      new ActionItem(
+        `Max Tokens: ${currentSettings.maxTokens}`,
+        vscode.TreeItemCollapsibleState.None,
+        'info',
+        null,
+        'Current max tokens setting'
+      ),
+      new ActionItem(
+        'Set Max Tokens',
+        vscode.TreeItemCollapsibleState.None,
+        'action',
+        {
+          command: COMMAND_IDS.quickSetMaxTokens,
+          title: 'Set Max Tokens',
+        },
+        'Change max tokens (300 normal, 30000 thick mode)'
+      ),
     ];
   }
 

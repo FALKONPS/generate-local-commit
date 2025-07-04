@@ -23,6 +23,7 @@ const COMMAND_IDS = {
   quickPullModel: 'generate-local-commit.quickPullModel',
   quickListModels: 'generate-local-commit.quickListModels',
   quickSetTemperature: 'generate-local-commit.quickSetTemperature',
+  quickSetMaxTokens: 'generate-local-commit.quickSetMaxTokens',
   quickResetSettings: 'generate-local-commit.quickResetSettings',
   enhanceCommitMessage: 'generate-local-commit.enhanceCommitMessage',
   reduceCommitMessage: 'generate-local-commit.reduceCommitMessage',

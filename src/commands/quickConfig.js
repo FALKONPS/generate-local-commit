@@ -230,6 +230,62 @@ async function quickSetTemperature() {
 }
 
 /**
+ * Quick command to set max tokens with thick mode option
+ */
+async function quickSetMaxTokens() {
+  const settingsService = new SettingsService();
+  const currentSettings = settingsService.getAllSettings();
+
+  // Show quick pick for common max token values
+  const tokenOptions = [
+    { label: '300 - Normal mode (default)', value: 300 },
+    { label: '500 - Extended', value: 500 },
+    { label: '1000 - Large', value: 1000 },
+    { label: '5000 - Very large', value: 5000 },
+    { label: '30000 - Thick mode (for complex diffs)', value: 30000 },
+    { label: 'Custom value...', value: 'custom' },
+  ];
+
+  const selected = await vscode.window.showQuickPick(tokenOptions, {
+    placeHolder: `Current max tokens: ${currentSettings.maxTokens}. Note: Thick mode (30000) is for complex diffs, normal mode (300) for regular use.`,
+  });
+
+  if (!selected) return;
+
+  let newMaxTokens = selected.value;
+
+  if (selected.value === 'custom') {
+    const customTokens = await vscode.window.showInputBox({
+      prompt: 'Enter max tokens value (50 - 50000)',
+      placeHolder: '300',
+      value: currentSettings.maxTokens.toString(),
+      validateInput: (value) => {
+        const num = parseInt(value);
+        if (isNaN(num) || num < 50 || num > 50000) {
+          return 'Max tokens must be a number between 50 and 50000';
+        }
+        return null;
+      },
+    });
+
+    if (!customTokens) return;
+    newMaxTokens = parseInt(customTokens);
+  }
+
+  try {
+    await settingsService.updateSetting('maxTokens', newMaxTokens);
+    const mode = newMaxTokens >= 30000 ? 'thick mode' : 'normal mode';
+    vscode.window.showInformationMessage(
+      `Max tokens set to: ${newMaxTokens} (${mode})`
+    );
+  } catch (error) {
+    vscode.window.showErrorMessage(
+      `Failed to update max tokens: ${error.message}`
+    );
+  }
+}
+
+/**
  * Quick command to reset all settings to defaults
  */
 async function quickResetSettings() {
@@ -261,5 +317,6 @@ module.exports = {
   quickPullModel,
   quickListModels,
   quickSetTemperature,
+  quickSetMaxTokens,
   quickResetSettings,
 };

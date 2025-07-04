@@ -12,6 +12,7 @@ const {
   quickPullModel,
   quickListModels,
   quickSetTemperature,
+  quickSetMaxTokens,
   quickResetSettings,
 } = require('./commands/quickConfig');
 const { QuickActionsProvider } = require('./views/quickActionsProvider');
@@ -67,6 +68,11 @@ function activate(context) {
       quickSetTemperature
     );
 
+    const quickSetMaxTokensCommand = vscode.commands.registerCommand(
+      COMMAND_IDS.quickSetMaxTokens,
+      quickSetMaxTokens
+    );
+
     const quickResetSettingsCommand = vscode.commands.registerCommand(
       COMMAND_IDS.quickResetSettings,
       quickResetSettings
@@ -113,6 +119,7 @@ function activate(context) {
       quickPullModelCommand,
       quickListModelsCommand,
       quickSetTemperatureCommand,
+      quickSetMaxTokensCommand,
       quickResetSettingsCommand,
       enhanceCommitMessageCommand,
       reduceCommitMessageCommand,
