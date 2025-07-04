@@ -35,7 +35,7 @@
       },
       {
         "command": "generate-local-commit.openSettings",
-        "title": "Open Git Commit Local Settings"
+        "title": "Open Generate Local Commit Settings"
       },
       {
         "command": "generate-local-commit.showCommitDiff",
@@ -151,7 +151,7 @@
       "activitybar": [
         {
           "id": "generate-local-commit",
-          "title": "Git Commit Local",
+          "title": "Generate Local Commit",
           "icon": "$(git-commit)"
         }
       ]
@@ -171,12 +171,12 @@
     "viewsWelcome": [
       {
         "view": "generate-local-commit.quickActionsView",
-        "contents": "Quick actions for Git Commit Local.\n[Open Settings](command:generate-local-commit.openSettings)",
+        "contents": "Quick actions for Generate Local Commit.\n[Open Settings](command:generate-local-commit.openSettings)",
         "when": "workbenchState == empty"
       }
     ],
     "configuration": {
-      "title": "Git Commit Local",
+      "title": "Generate Local Commit",
       "properties": {
         "generate-local-commit.endpoint": {
           "type": "string",

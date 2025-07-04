@@ -23,7 +23,7 @@ const { COMMAND_IDS, VIEW_IDS } = require('./utils/constants');
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-  console.log('Git Commit Local is now active');
+  console.log('Generate Local Commit is now active');
 
   try {
     // Register commands
@@ -127,17 +127,17 @@ function activate(context) {
       historyViewDisposable
     );
 
-    console.log('Git Commit Local extension activated successfully');
+    console.log('Generate Local Commit extension activated successfully');
     console.log('View IDs registered:', VIEW_IDS);
 
     // Show a success message
     vscode.window.showInformationMessage(
-      'Git Commit Local extension is now active! Check the Activity Bar for the Git Commit icon.'
+      'Generate Local Commit extension is now active! Check the Activity Bar for the Git Commit icon.'
     );
   } catch (error) {
-    console.error('Error activating Git Commit Local extension:', error);
+    console.error('Error activating Generate Local Commit extension:', error);
     vscode.window.showErrorMessage(
-      `Failed to activate Git Commit Local: ${error.message}`
+      `Failed to activate Generate Local Commit: ${error.message}`
     );
   }
 }
