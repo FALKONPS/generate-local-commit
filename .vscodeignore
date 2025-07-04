@@ -8,3 +8,16 @@ vsc-extension-quickstart.md
 **/*.map
 **/eslint.config.mjs
 **/.vscode-test.*
+node_modules/**
+out/**
+*.vsix
+package-lock.json
+CHANGELOG.md
+LICENSE
+README.md
+.git/**
+.github/**
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
