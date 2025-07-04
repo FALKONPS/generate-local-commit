@@ -203,10 +203,10 @@ class ActionItem extends vscode.TreeItem {
     // Set icons based on type
     switch (type) {
       case 'category':
-        this.iconPath = new vscode.ThemeIcon('folder');
+        this.iconPath = new vscode.ThemeIcon('folder', new vscode.ThemeColor('charts.blue'));
         break;
       case 'action':
-        this.iconPath = new vscode.ThemeIcon('play');
+        this.iconPath = new vscode.ThemeIcon('play', new vscode.ThemeColor('charts.green'));
         break;
       case 'info':
         this.iconPath = new vscode.ThemeIcon('info');
