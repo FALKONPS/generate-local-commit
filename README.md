@@ -30,9 +30,8 @@ A VSCode extension that generates commit messages using local [Ollama](https://o
 3. Configure the extension settings if needed
 
 ## Usage
-
-![image](https://github.com/user-attachments/assets/e5413925-7c73-4eb4-95df-1e6019222136)
-![image](https://github.com/user-attachments/assets/900112fa-f868-4d27-8a73-3fdaa9e390bf)
+![image](https://github.com/user-attachments/assets/fec5e6ba-2896-460b-bc17-9fba2c1262f0)
+![image](https://github.com/user-attachments/assets/d8c04c5c-ea9f-47e9-a997-3a8a85e618e2)
 
 ### Basic Usage
 
