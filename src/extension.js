@@ -2,7 +2,15 @@ const vscode = require('vscode');
 const { openSettings } = require('./commands/openSettings');
 const { generateCommitMessageCommand } = require('./commands/generateCommitMessage');
 const { showCommitDiff } = require('./commands/showCommitDiff');
-const { SettingsViewProvider } = require('./views/settingsViewProvider');
+const { 
+  quickChangeModel, 
+  quickChangeEndpoint, 
+  quickPullModel, 
+  quickListModels, 
+  quickSetTemperature, 
+  quickResetSettings 
+} = require('./commands/quickConfig');
+const { QuickActionsProvider } = require('./views/quickActionsProvider');
 const { HistoryViewProvider } = require('./views/historyViewProvider');
 const { COMMAND_IDS, VIEW_IDS } = require('./utils/constants');
 
@@ -13,51 +21,91 @@ function activate(context) {
   console.log('Git Commit Local is now active');
 
   try {
-    // Register the command to open extension settings
+    // Register commands
     const settingsCommand = vscode.commands.registerCommand(
       COMMAND_IDS.openSettings,
       openSettings
     );
 
-    // Register the command to generate commit messages
     const generateCommand = vscode.commands.registerCommand(
       COMMAND_IDS.generateCommitMessage,
       generateCommitMessageCommand
     );
 
-    // Register the show commit diff command
     const showDiffCommand = vscode.commands.registerCommand(
       COMMAND_IDS.showCommitDiff,
       showCommitDiff
     );
 
-    // Register the settings view provider
-    console.log('Registering settings view provider...');
-    const settingsProvider = new SettingsViewProvider(context);
-    const settingsViewDisposable = vscode.window.registerWebviewViewProvider(
-      VIEW_IDS.settingsView,
-      settingsProvider
+    // Register quick config commands
+    const quickChangeModelCommand = vscode.commands.registerCommand(
+      COMMAND_IDS.quickChangeModel,
+      quickChangeModel
     );
-    console.log('Settings view provider registered successfully');
 
-    // Register the history view provider
-    console.log('Registering history view provider...');
+    const quickChangeEndpointCommand = vscode.commands.registerCommand(
+      COMMAND_IDS.quickChangeEndpoint,
+      quickChangeEndpoint
+    );
+
+    const quickPullModelCommand = vscode.commands.registerCommand(
+      COMMAND_IDS.quickPullModel,
+      quickPullModel
+    );
+
+    const quickListModelsCommand = vscode.commands.registerCommand(
+      COMMAND_IDS.quickListModels,
+      quickListModels
+    );
+
+    const quickSetTemperatureCommand = vscode.commands.registerCommand(
+      COMMAND_IDS.quickSetTemperature,
+      quickSetTemperature
+    );
+
+    const quickResetSettingsCommand = vscode.commands.registerCommand(
+      COMMAND_IDS.quickResetSettings,
+      quickResetSettings
+    );
+
+    // Register view providers immediately
+    console.log('Registering view providers...');
+    
+    const quickActionsProvider = new QuickActionsProvider();
+    const quickActionsViewDisposable = vscode.window.registerTreeDataProvider(
+      VIEW_IDS.quickActionsView,
+      quickActionsProvider
+    );
+    console.log('Quick actions view provider registered for:', VIEW_IDS.quickActionsView);
+
     const historyProvider = new HistoryViewProvider();
     const historyViewDisposable = vscode.window.registerTreeDataProvider(
       VIEW_IDS.historyView,
       historyProvider
     );
-    console.log('History view provider registered successfully');
+    console.log('History view provider registered for:', VIEW_IDS.historyView);
 
+    // Add to subscriptions
     context.subscriptions.push(
       settingsCommand,
       generateCommand,
       showDiffCommand,
-      settingsViewDisposable,
+      quickChangeModelCommand,
+      quickChangeEndpointCommand,
+      quickPullModelCommand,
+      quickListModelsCommand,
+      quickSetTemperatureCommand,
+      quickResetSettingsCommand,
+      quickActionsViewDisposable,
       historyViewDisposable
     );
 
     console.log('Git Commit Local extension activated successfully');
+    console.log('View IDs registered:', VIEW_IDS);
+    
+    // Show a success message
+    vscode.window.showInformationMessage('Git Commit Local extension is now active! Check the Activity Bar for the Git Commit icon.');
+    
   } catch (error) {
     console.error('Error activating Git Commit Local extension:', error);
     vscode.window.showErrorMessage(`Failed to activate Git Commit Local: ${error.message}`);

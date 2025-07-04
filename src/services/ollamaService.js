@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { extractAndCleanCommitMessage } = require('../utils/messageCleanup');
 
 /**
  * Generate commit message using Ollama API
@@ -30,14 +31,8 @@ async function generateCommitMessage(prompt, config) {
 
     const rawMessage = response.data.response.trim();
 
-    // Extract the commit message from between [COMMIT][/COMMIT] tags
-    let message = rawMessage;
-    const commitTagRegex = /\[COMMIT\]([\s\S]*?)\[\/COMMIT\]/;
-    const match = rawMessage.match(commitTagRegex);
-
-    if (match && match[1]) {
-      message = match[1].trim();
-    }
+    // Extract and clean the commit message
+    const message = extractAndCleanCommitMessage(rawMessage);
 
     return message;
   } catch (error) {
