@@ -14,13 +14,12 @@ function removeThinkingTags(message) {
 
   // Remove <think>...</think> tags and their content (case insensitive)
   let cleaned = message.replace(/<think>[\s\S]*?<\/think>/gi, '');
-  
+
   // Remove <thinking>...</thinking> tags and their content (case insensitive)
   cleaned = cleaned.replace(/<thinking>[\s\S]*?<\/thinking>/gi, '');
-  
+
   return cleaned;
 }
-
 
 /**
  * Remove markdown artifacts that might be added by AI models
@@ -36,14 +35,14 @@ function removeMarkdownArtifacts(message) {
 
   // Remove markdown code blocks
   cleaned = cleaned.replace(/```[\s\S]*?```/g, '');
-  
+
   // Remove markdown bold/italic formatting from commit messages
   cleaned = cleaned.replace(/\*\*(.*?)\*\*/g, '$1');
   cleaned = cleaned.replace(/\*(.*?)\*/g, '$1');
-  
+
   // Remove backticks around single words
   cleaned = cleaned.replace(/`([^`\n]+)`/g, '$1');
-  
+
   return cleaned;
 }
 
@@ -61,16 +60,16 @@ function normalizeWhitespace(message) {
 
   // Remove multiple consecutive newlines
   cleaned = cleaned.replace(/\n\s*\n\s*\n/g, '\n\n');
-  
+
   // Remove leading/trailing whitespace
   cleaned = cleaned.trim();
-  
+
   // Remove multiple consecutive spaces
   cleaned = cleaned.replace(/  +/g, ' ');
-  
+
   // Remove whitespace at the beginning of lines
   cleaned = cleaned.replace(/^\s+/gm, '');
-  
+
   return cleaned;
 }
 

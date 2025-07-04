@@ -43,21 +43,21 @@ This extension contributes the following settings that you can customize:
 
 | Setting                                   | Description                                                    | Default                  |
 | ----------------------------------------- | -------------------------------------------------------------- | ------------------------ |
-| `git-commit-local.endpoint`               | Ollama API endpoint URL                                        | `http://localhost:11434` |
-| `git-commit-local.model`                  | Ollama model to use                                            | `qwen2.5:3b`             |
-| `git-commit-local.maxTokens`              | Maximum tokens to generate                                     | `300`                    |
-| `git-commit-local.temperature`            | Temperature for generation (higher is more creative)           | `0.2`                    |
-| `git-commit-local.contextRange`           | Number of context lines to include above and below each change | `3`                      |
-| `git-commit-local.promptTemplate`         | Template for the prompt with `${diff}` placeholder             | _(See below)_            |
-| `git-commit-local.useConventionalCommits` | Follow conventional commits format                             | `true`                   |
-| `git-commit-local.showDiffConfirmation`   | Show confirmation dialog with diff before generating           | `false`                  |
+| `generate-local-commit.endpoint`               | Ollama API endpoint URL                                        | `http://localhost:11434` |
+| `generate-local-commit.model`                  | Ollama model to use                                            | `qwen2.5:3b`             |
+| `generate-local-commit.maxTokens`              | Maximum tokens to generate                                     | `300`                    |
+| `generate-local-commit.temperature`            | Temperature for generation (higher is more creative)           | `0.2`                    |
+| `generate-local-commit.contextRange`           | Number of context lines to include above and below each change | `3`                      |
+| `generate-local-commit.promptTemplate`         | Template for the prompt with `${diff}` placeholder             | _(See below)_            |
+| `generate-local-commit.useConventionalCommits` | Follow conventional commits format                             | `true`                   |
+| `generate-local-commit.showDiffConfirmation`   | Show confirmation dialog with diff before generating           | `false`                  |
 
 ## Accessing Settings
 
 You can access the extension settings in three ways:
 
 - Click the "Open Generate Local Commit Settings" button in the Source Control view
-- Go to File → Preferences → Settings and search for "git-commit-local"
+- Go to File → Preferences → Settings and search for "generate-local-commit"
 - Use the command palette (`Ctrl+Shift+P`) and type "Open Generate Local Commit Settings"
 
 ## Context Range Feature

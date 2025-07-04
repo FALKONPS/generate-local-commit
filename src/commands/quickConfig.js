@@ -7,10 +7,10 @@ const { DEFAULT_CONFIG, CONFIG_SECTION } = require('../utils/constants');
  */
 async function quickChangeModel() {
   const settingsService = new SettingsService();
-  
+
   // Get current model
   const currentSettings = settingsService.getAllSettings();
-  
+
   // Show input box with current model as placeholder
   const newModel = await vscode.window.showInputBox({
     prompt: 'Enter Ollama model name',
@@ -21,9 +21,13 @@ async function quickChangeModel() {
   if (newModel && newModel.trim() !== '') {
     try {
       await settingsService.updateSetting('model', newModel.trim());
-      vscode.window.showInformationMessage(`Model changed to: ${newModel.trim()}`);
+      vscode.window.showInformationMessage(
+        `Model changed to: ${newModel.trim()}`
+      );
     } catch (error) {
-      vscode.window.showErrorMessage(`Failed to update model: ${error.message}`);
+      vscode.window.showErrorMessage(
+        `Failed to update model: ${error.message}`
+      );
     }
   }
 }
@@ -33,10 +37,10 @@ async function quickChangeModel() {
  */
 async function quickChangeEndpoint() {
   const settingsService = new SettingsService();
-  
+
   // Get current endpoint
   const currentSettings = settingsService.getAllSettings();
-  
+
   // Show input box with current endpoint as placeholder
   const newEndpoint = await vscode.window.showInputBox({
     prompt: 'Enter Ollama API endpoint URL',
@@ -47,9 +51,13 @@ async function quickChangeEndpoint() {
   if (newEndpoint && newEndpoint.trim() !== '') {
     try {
       await settingsService.updateSetting('endpoint', newEndpoint.trim());
-      vscode.window.showInformationMessage(`Endpoint changed to: ${newEndpoint.trim()}`);
+      vscode.window.showInformationMessage(
+        `Endpoint changed to: ${newEndpoint.trim()}`
+      );
     } catch (error) {
-      vscode.window.showErrorMessage(`Failed to update endpoint: ${error.message}`);
+      vscode.window.showErrorMessage(
+        `Failed to update endpoint: ${error.message}`
+      );
     }
   }
 }
@@ -83,32 +91,37 @@ async function quickPullModel() {
 
       try {
         const axios = require('axios');
-        
-        // Call Ollama pull API
-        const response = await axios.post(`${currentSettings.endpoint}/api/pull`, {
-          name: modelName.trim(),
-        });
 
-        progress.report({ increment: 100 });
-        
-        vscode.window.showInformationMessage(`Successfully pulled model: ${modelName.trim()}`);
-        
-        // Ask if user wants to set this as the active model
-        const setAsActive = await vscode.window.showQuickPick(
-          ['Yes', 'No'],
+        // Call Ollama pull API
+        const response = await axios.post(
+          `${currentSettings.endpoint}/api/pull`,
           {
-            placeHolder: `Set ${modelName.trim()} as the active model?`
+            name: modelName.trim(),
           }
         );
 
+        progress.report({ increment: 100 });
+
+        vscode.window.showInformationMessage(
+          `Successfully pulled model: ${modelName.trim()}`
+        );
+
+        // Ask if user wants to set this as the active model
+        const setAsActive = await vscode.window.showQuickPick(['Yes', 'No'], {
+          placeHolder: `Set ${modelName.trim()} as the active model?`,
+        });
+
         if (setAsActive === 'Yes') {
           await settingsService.updateSetting('model', modelName.trim());
-          vscode.window.showInformationMessage(`Active model set to: ${modelName.trim()}`);
+          vscode.window.showInformationMessage(
+            `Active model set to: ${modelName.trim()}`
+          );
         }
-        
       } catch (error) {
         console.error('Error pulling model:', error);
-        vscode.window.showErrorMessage(`Failed to pull model: ${error.message}`);
+        vscode.window.showErrorMessage(
+          `Failed to pull model: ${error.message}`
+        );
       }
     }
   );
@@ -123,22 +136,24 @@ async function quickListModels() {
 
   try {
     const axios = require('axios');
-    
+
     // Get list of models from Ollama
     const response = await axios.get(`${currentSettings.endpoint}/api/tags`);
     const models = response.data.models || [];
 
     if (models.length === 0) {
-      vscode.window.showInformationMessage('No models found. Pull a model first.');
+      vscode.window.showInformationMessage(
+        'No models found. Pull a model first.'
+      );
       return;
     }
 
     // Create quick pick items
-    const modelItems = models.map(model => ({
+    const modelItems = models.map((model) => ({
       label: model.name,
       detail: `Size: ${(model.size / 1024 / 1024 / 1024).toFixed(1)}GB`,
       description: model.name === currentSettings.model ? '(active)' : '',
-      model: model.name
+      model: model.name,
     }));
 
     // Show quick pick
@@ -149,9 +164,10 @@ async function quickListModels() {
 
     if (selected && selected.model !== currentSettings.model) {
       await settingsService.updateSetting('model', selected.model);
-      vscode.window.showInformationMessage(`Active model set to: ${selected.model}`);
+      vscode.window.showInformationMessage(
+        `Active model set to: ${selected.model}`
+      );
     }
-
   } catch (error) {
     console.error('Error listing models:', error);
     vscode.window.showErrorMessage(`Failed to list models: ${error.message}`);
@@ -194,7 +210,7 @@ async function quickSetTemperature() {
           return 'Temperature must be a number between 0.0 and 2.0';
         }
         return null;
-      }
+      },
     });
 
     if (!customTemp) return;
@@ -203,9 +219,13 @@ async function quickSetTemperature() {
 
   try {
     await settingsService.updateSetting('temperature', newTemperature);
-    vscode.window.showInformationMessage(`Temperature set to: ${newTemperature}`);
+    vscode.window.showInformationMessage(
+      `Temperature set to: ${newTemperature}`
+    );
   } catch (error) {
-    vscode.window.showErrorMessage(`Failed to update temperature: ${error.message}`);
+    vscode.window.showErrorMessage(
+      `Failed to update temperature: ${error.message}`
+    );
   }
 }
 
@@ -224,9 +244,13 @@ async function quickResetSettings() {
     try {
       const settingsService = new SettingsService();
       await settingsService.resetToDefaults();
-      vscode.window.showInformationMessage('All settings have been reset to defaults.');
+      vscode.window.showInformationMessage(
+        'All settings have been reset to defaults.'
+      );
     } catch (error) {
-      vscode.window.showErrorMessage(`Failed to reset settings: ${error.message}`);
+      vscode.window.showErrorMessage(
+        `Failed to reset settings: ${error.message}`
+      );
     }
   }
 }

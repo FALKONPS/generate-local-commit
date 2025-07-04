@@ -14,9 +14,12 @@ async function generateCommitMessageCommand() {
     const modelName = config.get('model') || DEFAULT_CONFIG.model;
     const maxTokens = config.get('maxTokens') || DEFAULT_CONFIG.maxTokens;
     const temperature = config.get('temperature') || DEFAULT_CONFIG.temperature;
-    const useConventionalCommits = config.get('useConventionalCommits') !== false;
-    const showDiffConfirmation = config.get('showDiffConfirmation') || DEFAULT_CONFIG.showDiffConfirmation;
-    const contextRange = config.get('contextRange') || DEFAULT_CONFIG.contextRange;
+    const useConventionalCommits =
+      config.get('useConventionalCommits') !== false;
+    const showDiffConfirmation =
+      config.get('showDiffConfirmation') || DEFAULT_CONFIG.showDiffConfirmation;
+    const contextRange =
+      config.get('contextRange') || DEFAULT_CONFIG.contextRange;
 
     // Get git diff to analyze changes with context
     const diff = await getGitDiff(contextRange);
@@ -66,7 +69,7 @@ async function generateCommitMessageCommand() {
           // Show settings with focus on the promptTemplate setting
           vscode.commands.executeCommand(
             'workbench.action.openSettings',
-            'git-commit-local.promptTemplate'
+            'generate-local-commit.promptTemplate'
           );
           return;
         }
