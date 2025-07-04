@@ -1,12 +1,12 @@
 {
-  "name": "git-commit-local",
-  "displayName": "Git Commit Local",
+  "name": "generate-local-commit",
+  "displayName": "Generate Local Commit",
   "description": "Generate commit messages locally using Ollama API",
   "publisher": "falkonps",
   "version": "1.0.2",
   "repository": {
     "type": "git",
-    "url": "https://github.com/FALKONPS/git-commit-local"
+    "url": "https://github.com/FALKONPS/generate-local-commit"
   },
   "engines": {
     "vscode": "^1.98.0"

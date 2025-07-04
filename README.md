@@ -1,9 +1,9 @@
-# Git Commit Local
+# Generate Local Commit
 
 A VSCode extension that generates commit messages using local [Ollama](https://ollama.com/) models, providing privacy and flexibility.
 
 [![Ollama GitHub](https://img.shields.io/badge/Ollama-GitHub-181717?style=for-the-badge&logo=github)](https://github.com/ollama/ollama)
-[![VS Code Marketplace](https://img.shields.io/badge/VS_Code-Marketplace-007ACC?style=for-the-badge&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=falkonps.git-commit-local)
+[![VS Code Marketplace](https://img.shields.io/badge/VS_Code-Marketplace-007ACC?style=for-the-badge&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=falkonps.generate-local-commit)
 
 ## Features
 
@@ -54,9 +54,9 @@ This extension contributes the following settings that you can customize:
 
 You can access the extension settings in three ways:
 
-- Click the "Open Git Commit Local Settings" button in the Source Control view
+- Click the "Open Generate Local Commit Settings" button in the Source Control view
 - Go to File → Preferences → Settings and search for "git-commit-local"
-- Use the command palette (`Ctrl+Shift+P`) and type "Open Git Commit Local Settings"
+- Use the command palette (`Ctrl+Shift+P`) and type "Open Generate Local Commit Settings"
 
 ## Context Range Feature
 
