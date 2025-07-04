@@ -12,9 +12,6 @@ node_modules/**
 out/**
 *.vsix
 package-lock.json
-CHANGELOG.md
-LICENSE
-README.md
 .git/**
 .github/**
 *.log
