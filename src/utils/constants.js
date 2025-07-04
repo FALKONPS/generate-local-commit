@@ -18,10 +18,16 @@ const COMMAND_IDS = {
   generateCommitMessage: 'git-commit-local.generateCommitMessage',
   openSettings: 'git-commit-local.openSettings',
   showCommitDiff: 'git-commit-local.showCommitDiff',
+  quickChangeModel: 'git-commit-local.quickChangeModel',
+  quickChangeEndpoint: 'git-commit-local.quickChangeEndpoint',
+  quickPullModel: 'git-commit-local.quickPullModel',
+  quickListModels: 'git-commit-local.quickListModels',
+  quickSetTemperature: 'git-commit-local.quickSetTemperature',
+  quickResetSettings: 'git-commit-local.quickResetSettings',
 };
 
 const VIEW_IDS = {
-  settingsView: 'git-commit-local.settingsView',
+  quickActionsView: 'git-commit-local.quickActionsView',
   historyView: 'git-commit-local.historyView',
 };
 

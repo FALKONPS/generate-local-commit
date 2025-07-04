@@ -3,7 +3,7 @@
   "displayName": "Git Commit Local",
   "description": "Generate commit messages locally using Ollama API",
   "publisher": "falkonps",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/FALKONPS/git-commit-local"
@@ -16,7 +16,7 @@
     "SCM Providers"
   ],
   "activationEvents": [
-    "onView:git-commit-local.settingsView",
+    "onView:git-commit-local.quickActionsView",
     "onView:git-commit-local.historyView",
     "onCommand:git-commit-local.generateCommitMessage",
     "onCommand:git-commit-local.openSettings"
@@ -40,6 +40,36 @@
       {
         "command": "git-commit-local.showCommitDiff",
         "title": "Show Commit Diff"
+      },
+      {
+        "command": "git-commit-local.quickChangeModel",
+        "title": "Quick: Change Model",
+        "icon": "$(symbol-parameter)"
+      },
+      {
+        "command": "git-commit-local.quickChangeEndpoint",
+        "title": "Quick: Change Endpoint",
+        "icon": "$(server)"
+      },
+      {
+        "command": "git-commit-local.quickPullModel",
+        "title": "Quick: Pull Model",
+        "icon": "$(cloud-download)"
+      },
+      {
+        "command": "git-commit-local.quickListModels",
+        "title": "Quick: List Models",
+        "icon": "$(list-unordered)"
+      },
+      {
+        "command": "git-commit-local.quickSetTemperature",
+        "title": "Quick: Set Temperature",
+        "icon": "$(thermometer)"
+      },
+      {
+        "command": "git-commit-local.quickResetSettings",
+        "title": "Quick: Reset Settings",
+        "icon": "$(refresh)"
       }
     ],
     "menus": {
@@ -62,6 +92,24 @@
         },
         {
           "command": "git-commit-local.openSettings"
+        },
+        {
+          "command": "git-commit-local.quickChangeModel"
+        },
+        {
+          "command": "git-commit-local.quickChangeEndpoint"
+        },
+        {
+          "command": "git-commit-local.quickPullModel"
+        },
+        {
+          "command": "git-commit-local.quickListModels"
+        },
+        {
+          "command": "git-commit-local.quickSetTemperature"
+        },
+        {
+          "command": "git-commit-local.quickResetSettings"
         }
       ]
     },
@@ -77,8 +125,8 @@
     "views": {
       "git-commit-local": [
         {
-          "id": "git-commit-local.settingsView",
-          "name": "Settings"
+          "id": "git-commit-local.quickActionsView",
+          "name": "Quick Actions"
         },
         {
           "id": "git-commit-local.historyView",
@@ -88,8 +136,8 @@
     },
     "viewsWelcome": [
       {
-        "view": "git-commit-local.settingsView",
-        "contents": "Configure your Git Commit Local settings here.\n[Open Settings](command:git-commit-local.openSettings)",
+        "view": "git-commit-local.quickActionsView",
+        "contents": "Quick actions for Git Commit Local.\n[Open Settings](command:git-commit-local.openSettings)",
         "when": "workbenchState == empty"
       }
     ],
