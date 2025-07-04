@@ -16,10 +16,12 @@
     "SCM Providers"
   ],
   "activationEvents": [
+    "onView:git-commit-local.settingsView",
+    "onView:git-commit-local.historyView",
     "onCommand:git-commit-local.generateCommitMessage",
     "onCommand:git-commit-local.openSettings"
   ],
-  "main": "./extension.js",
+  "main": "./src/extension.js",
   "icon": "ollama.png",
   "contributes": {
     "commands": [
@@ -34,6 +36,10 @@
       {
         "command": "git-commit-local.openSettings",
         "title": "Open Git Commit Local Settings"
+      },
+      {
+        "command": "git-commit-local.showCommitDiff",
+        "title": "Show Commit Diff"
       }
     ],
     "menus": {
@@ -59,6 +65,34 @@
         }
       ]
     },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "git-commit-local",
+          "title": "Git Commit Local",
+          "icon": "$(git-commit)"
+        }
+      ]
+    },
+    "views": {
+      "git-commit-local": [
+        {
+          "id": "git-commit-local.settingsView",
+          "name": "Settings"
+        },
+        {
+          "id": "git-commit-local.historyView",
+          "name": "Recent Commits"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "git-commit-local.settingsView",
+        "contents": "Configure your Git Commit Local settings here.\n[Open Settings](command:git-commit-local.openSettings)",
+        "when": "workbenchState == empty"
+      }
+    ],
     "configuration": {
       "title": "Git Commit Local",
       "properties": {
