@@ -3,7 +3,7 @@
   "displayName": "Generate Local Commit",
   "description": "Generate commit messages locally using Ollama API",
   "publisher": "falkonps",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "repository": {
     "type": "git",
     "url": "https://github.com/FALKONPS/generate-local-commit"
