@@ -2,6 +2,7 @@ const vscode = require('vscode');
 const { OllamaService } = require('../services/ollamaService');
 const { SettingsService } = require('../services/settingsService');
 const { cleanCommitMessage } = require('../utils/messageCleanup');
+const { getDefaultReducePrompt } = require('../utils/promptTemplate');
 
 /**
  * Reduce/shorten an existing commit message using Ollama
@@ -91,25 +92,6 @@ async function reduceCommitMessage() {
   }
 }
 
-/**
- * Get default reduce prompt template
- */
-function getDefaultReducePrompt() {
-  return `You are an AI assistant specialized in creating concise git commit messages. Your task is to shorten the provided commit message while preserving its core meaning and important details.
-
-Guidelines for reduction:
-1. Keep the essential meaning and intent
-2. Remove unnecessary words and redundant information
-3. Maintain conventional commit format if present
-4. Ensure it's under 50 characters if possible
-5. Preserve important technical details
-6. Use imperative mood (e.g., "add", "fix", "update")
-7. Focus on what changed, not how it was implemented
-
-Current commit message: \${message}
-
-Please provide a shorter, more concise version of this commit message:`;
-}
 
 module.exports = {
   reduceCommitMessage,
