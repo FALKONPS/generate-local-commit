@@ -175,6 +175,27 @@ class QuickActionsProvider {
         },
         'Change max tokens (300 normal, 30000 thick mode)'
       ),
+      new ActionItem(
+        `Message Cleanup: ${currentSettings.enableMessageCleanup ? 'Enabled' : 'Disabled'}`,
+        vscode.TreeItemCollapsibleState.None,
+        'cleanup-info',
+        null,
+        'Current message cleanup status',
+        currentSettings.enableMessageCleanup
+      ),
+      new ActionItem(
+        currentSettings.enableMessageCleanup ? 'Disable Message Cleanup' : 'Enable Message Cleanup',
+        vscode.TreeItemCollapsibleState.None,
+        'cleanup-action',
+        {
+          command: COMMAND_IDS.toggleMessageCleanup,
+          title: 'Toggle Message Cleanup',
+        },
+        currentSettings.enableMessageCleanup ? 
+          'Disable automatic cleaning of AI responses (use raw output)' : 
+          'Enable automatic cleaning of AI responses (remove tags and artifacts)',
+        currentSettings.enableMessageCleanup
+      ),
     ];
   }
 
@@ -242,7 +263,7 @@ class QuickActionsProvider {
  * Represents an action item in the tree
  */
 class ActionItem extends vscode.TreeItem {
-  constructor(label, collapsibleState, type, command = null, tooltip = null) {
+  constructor(label, collapsibleState, type, command = null, tooltip = null, isEnabled = null) {
     super(label, collapsibleState);
 
     this.command = command;
@@ -263,6 +284,20 @@ class ActionItem extends vscode.TreeItem {
           new vscode.ThemeColor('charts.green')
         );
         break;
+      case 'cleanup-info':
+        // Boolean indicator: check mark for enabled, x for disabled
+        this.iconPath = new vscode.ThemeIcon(
+          isEnabled ? 'check' : 'x',
+          new vscode.ThemeColor(isEnabled ? 'testing.iconPassed' : 'testing.iconFailed')
+        );
+        break;
+      case 'cleanup-action':
+        // Toggle button: power symbol with color indicating state
+        this.iconPath = new vscode.ThemeIcon(
+          'circle-filled',
+          new vscode.ThemeColor(isEnabled ? 'testing.iconPassed' : 'testing.iconFailed')
+        );
+        break;
       case 'info':
         this.iconPath = new vscode.ThemeIcon('info');
         break;
@@ -271,7 +306,7 @@ class ActionItem extends vscode.TreeItem {
     }
 
     // Style info items differently
-    if (type === 'info') {
+    if (type === 'info' || type === 'cleanup-info') {
       this.description = '';
       this.resourceUri = vscode.Uri.parse('info://current');
     }

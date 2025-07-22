@@ -100,6 +100,11 @@
         "command": "generate-local-commit.testPrompt",
         "title": "Test Prompt",
         "icon": "$(play)"
+      },
+      {
+        "command": "generate-local-commit.toggleMessageCleanup",
+        "title": "Toggle Message Cleanup",
+        "icon": "$(filter)"
       }
     ],
     "menus": {
@@ -168,6 +173,9 @@
         },
         {
           "command": "generate-local-commit.testPrompt"
+        },
+        {
+          "command": "generate-local-commit.toggleMessageCleanup"
         }
       ]
     },
@@ -256,6 +264,11 @@
         "generate-local-commit.reducePrompt": {
           "type": "string",
           "description": "Template for the prompt sent to Ollama to reduce commit message length. IMPORTANT: Must contain '${message}' placeholder which will be replaced with the actual commit message."
+        },
+        "generate-local-commit.enableMessageCleanup": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable automatic cleanup of AI responses (removes thinking tags, markdown artifacts, and normalizes whitespace). When disabled, raw AI output is used as-is."
         }
       }
     }

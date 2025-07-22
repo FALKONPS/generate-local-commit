@@ -4,12 +4,13 @@
 
 const DEFAULT_CONFIG = {
   endpoint: 'http://localhost:11434',
-  model: 'qwen2.5:3b',
-  maxTokens: 300,
-  temperature: 0.2,
+  model: 'qwen3:0.6b',
+  maxTokens: 3000,
+  temperature: 0.7,
   contextRange: 3,
   useConventionalCommits: true,
   showDiffConfirmation: false,
+  enableMessageCleanup: true,
 };
 
 const CONFIG_SECTION = 'generate-local-commit';
@@ -30,6 +31,7 @@ const COMMAND_IDS = {
   editPrompt: 'generate-local-commit.editPrompt',
   resetPrompt: 'generate-local-commit.resetPrompt',
   testPrompt: 'generate-local-commit.testPrompt',
+  toggleMessageCleanup: 'generate-local-commit.toggleMessageCleanup',
 };
 
 const VIEW_IDS = {
