@@ -15,7 +15,13 @@ const {
   quickSetMaxTokens,
   quickResetSettings,
 } = require('./commands/quickConfig');
+const {
+  editPrompt,
+  resetPrompt,
+  testPrompt,
+} = require('./commands/promptManagement');
 const { QuickActionsProvider } = require('./views/quickActionsProvider');
+const { PromptManagementProvider } = require('./views/promptManagementProvider');
 const { HistoryViewProvider } = require('./views/historyViewProvider');
 const { COMMAND_IDS, VIEW_IDS } = require('./utils/constants');
 
@@ -89,6 +95,22 @@ function activate(context) {
       reduceCommitMessage
     );
 
+    // Register prompt management commands
+    const editPromptCommand = vscode.commands.registerCommand(
+      COMMAND_IDS.editPrompt,
+      editPrompt
+    );
+
+    const resetPromptCommand = vscode.commands.registerCommand(
+      COMMAND_IDS.resetPrompt,
+      resetPrompt
+    );
+
+    const testPromptCommand = vscode.commands.registerCommand(
+      COMMAND_IDS.testPrompt,
+      testPrompt
+    );
+
     // Register view providers immediately
     console.log('Registering view providers...');
 
@@ -100,6 +122,16 @@ function activate(context) {
     console.log(
       'Quick actions view provider registered for:',
       VIEW_IDS.quickActionsView
+    );
+
+    const promptManagementProvider = new PromptManagementProvider();
+    const promptManagementViewDisposable = vscode.window.registerTreeDataProvider(
+      VIEW_IDS.promptManagementView,
+      promptManagementProvider
+    );
+    console.log(
+      'Prompt management view provider registered for:',
+      VIEW_IDS.promptManagementView
     );
 
     const historyProvider = new HistoryViewProvider();
@@ -123,7 +155,11 @@ function activate(context) {
       quickResetSettingsCommand,
       enhanceCommitMessageCommand,
       reduceCommitMessageCommand,
+      editPromptCommand,
+      resetPromptCommand,
+      testPromptCommand,
       quickActionsViewDisposable,
+      promptManagementViewDisposable,
       historyViewDisposable
     );
 
