@@ -28,6 +28,72 @@ Types explained:
 [DIFF]\${diff}[/DIFF]`;
 }
 
+/**
+ * Get the default enhance prompt template
+ * @returns {string} The default enhance prompt template
+ */
+function getDefaultEnhancePrompt() {
+  return `You are an expert Git developer specialized in writing professional commit messages. Your task is to enhance the provided commit message to make it more descriptive, clear, and follow Git best practices while maintaining its original intent.
+
+Git commit message enhancement guidelines:
+1. Use conventional commit format: type(scope): description
+2. Start with imperative mood verbs (add, fix, update, remove, refactor, etc.)
+3. Capitalize the first letter of the subject line
+4. Don't end the subject line with a period
+5. Be specific about what changed and why (not how)
+6. Reference issue numbers, breaking changes, or affected components when relevant
+7. Use present tense as if completing the sentence "This commit will..."
+
+Common Git commit types:
+- feat: new feature or functionality
+- fix: bug fix or error correction
+- docs: documentation changes
+- style: formatting, whitespace, missing semicolons (no code change)
+- refactor: code restructuring without changing functionality
+- perf: performance improvements
+- test: adding or updating tests
+- build: build system or dependency changes
+- ci: continuous integration changes
+- chore: maintenance, tooling, or housekeeping
+
+Current commit message: \${message}
+
+Please provide an enhanced Git commit message that follows these best practices:`;
+}
+
+/**
+ * Get the default reduce prompt template
+ * @returns {string} The default reduce prompt template
+ */
+function getDefaultReducePrompt() {
+  return `You are an expert Git developer specialized in writing concise, professional commit messages. Your task is to shorten the provided commit message while preserving its core meaning and following Git best practices.
+
+Git commit message reduction guidelines:
+1. Maintain conventional commit format: type(scope): description
+2. Keep imperative mood verbs (add, fix, update, remove, refactor, etc.)
+3. Preserve the commit type (feat, fix, docs, style, refactor, perf, test, build, ci, chore)
+4. Remove redundant words like "this commit", "changes", "updates"
+5. Keep essential technical details (component names, key functionality)
+6. Remove filler words (very, really, just, simply, etc.)
+7. Focus on WHAT changed, not HOW it was implemented
+8. Capitalize first letter, no ending period
+9. If multi-line, keep the most important information in the subject line
+
+Abbreviation suggestions:
+- "implement" → "add"
+- "modification" → "update"
+- "enhancement" → "improve"
+- "configuration" → "config"
+- "functionality" → "feature"
+- "documentation" → "docs"
+
+Current commit message: \${message}
+
+Please provide a shorter, more concise Git commit message following these guidelines:`;
+}
+
 module.exports = {
   getDefaultPromptTemplate,
+  getDefaultEnhancePrompt,
+  getDefaultReducePrompt,
 };
