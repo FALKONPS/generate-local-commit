@@ -35,6 +35,7 @@ class SettingsService {
       enhancePrompt:
         config.get('enhancePrompt') || getDefaultEnhancePrompt(),
       reducePrompt: config.get('reducePrompt') || getDefaultReducePrompt(),
+      enableMessageCleanup: config.get('enableMessageCleanup') !== false,
     };
   }
 

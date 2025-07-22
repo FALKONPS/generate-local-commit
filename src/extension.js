@@ -20,6 +20,7 @@ const {
   resetPrompt,
   testPrompt,
 } = require('./commands/promptManagement');
+const { toggleMessageCleanup, setQuickActionsProvider } = require('./commands/toggleMessageCleanup');
 const { QuickActionsProvider } = require('./views/quickActionsProvider');
 const { PromptManagementProvider } = require('./views/promptManagementProvider');
 const { HistoryViewProvider } = require('./views/historyViewProvider');
@@ -111,6 +112,11 @@ function activate(context) {
       testPrompt
     );
 
+    const toggleMessageCleanupCommand = vscode.commands.registerCommand(
+      COMMAND_IDS.toggleMessageCleanup,
+      toggleMessageCleanup
+    );
+
     // Register view providers immediately
     console.log('Registering view providers...');
 
@@ -119,6 +125,10 @@ function activate(context) {
       VIEW_IDS.quickActionsView,
       quickActionsProvider
     );
+    
+    // Set the provider instance for the toggle command to refresh the view
+    setQuickActionsProvider(quickActionsProvider);
+    
     console.log(
       'Quick actions view provider registered for:',
       VIEW_IDS.quickActionsView
@@ -158,6 +168,7 @@ function activate(context) {
       editPromptCommand,
       resetPromptCommand,
       testPromptCommand,
+      toggleMessageCleanupCommand,
       quickActionsViewDisposable,
       promptManagementViewDisposable,
       historyViewDisposable
