@@ -20,6 +20,9 @@ help:
 	@echo "  install       - Install dependencies"
 	@echo "  build         - Build the extension as VSIX package"
 	@echo "  test          - Run extension tests"
+	@echo "  patch         - Increment patch version (x.x.X)"
+	@echo "  minor         - Increment minor version (x.X.0)"
+	@echo "  major         - Increment major version (X.0.0)"
 	@echo "  dev           - Development workflow (clean, install, lint, build)"
 	@echo "  release       - Release workflow (clean-all, install, lint, test, build)"
 	@echo "  list-vsix     - List all VSIX files in the directory"
@@ -72,6 +75,25 @@ test:
 	@echo "Running tests..."
 	$(TEST_CMD)
 	@echo "Tests completed"
+
+# Version management targets
+.PHONY: patch
+patch:
+	@echo "Incrementing patch version..."
+	@npm version patch --no-git-tag-version
+	@echo "Patch version incremented"
+
+.PHONY: minor
+minor:
+	@echo "Incrementing minor version..."
+	@npm version minor --no-git-tag-version
+	@echo "Minor version incremented"
+
+.PHONY: major
+major:
+	@echo "Incrementing major version..."
+	@npm version major --no-git-tag-version
+	@echo "Major version incremented"
 
 # Workflow targets
 .PHONY: dev
