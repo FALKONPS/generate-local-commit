@@ -8,13 +8,16 @@ A VSCode extension that generates commit messages using local [Ollama](https://o
 ## Features
 
 - Generate commit messages privately using locally-hosted Ollama models
-- Fully customizable prompt templates
+- Fully customizable prompt templates with live editing and testing
 - Configure temperature and token settings to control generation style
 - Works with staged or unstaged changes
 - Adjustable context range to include lines before and after changes
 - **Enhanced commit message functionality** - enhance or reduce existing commit messages
+- **Pull Request summary generation** - create comprehensive PR descriptions from recent commits
+- **Message cleanup control** - toggle AI response cleaning on/off with visual indicators
 - **Max Tokens control** - normal mode (300 tokens) for regular use, thick mode (30,000 tokens) for complex diffs
 - **Quick Actions sidebar** - convenient access to all settings and actions from the activity bar
+- **Prompt Templates management** - dedicated sidebar for editing, testing, and managing all prompt types
 
 ## Requirements
 
@@ -30,8 +33,10 @@ A VSCode extension that generates commit messages using local [Ollama](https://o
 3. Configure the extension settings if needed
 
 ## Usage
-![image](https://github.com/user-attachments/assets/fec5e6ba-2896-460b-bc17-9fba2c1262f0)
-![image](https://github.com/user-attachments/assets/d8c04c5c-ea9f-47e9-a997-3a8a85e618e2)
+<img width="801" height="263" alt="image" src="https://github.com/user-attachments/assets/e726fe95-20f1-422f-b128-40a46d9aace1" />
+
+<img width="583" height="981" alt="Screenshot From 2025-07-22 18-45-36" src="https://github.com/user-attachments/assets/72316192-cb04-4a3d-8566-7de729f95176" />
+<img width="586" height="678" alt="Screenshot From 2025-07-22 18-45-53" src="https://github.com/user-attachments/assets/a39198df-249a-4523-a57d-32caf475efda" />
 
 ### Basic Usage
 
@@ -55,18 +60,41 @@ The extension provides a convenient Quick Actions sidebar in the activity bar:
 - View and change Ollama endpoint
 - Adjust temperature (creativity level)
 - **Set Max Tokens** - Choose between normal mode (300 tokens) or thick mode (30,000 tokens) for complex diffs
+- **Message Cleanup Control** - Toggle AI response cleaning with visual status indicators
 - Access full settings UI
 
 **System Actions:**
 - Generate commit messages
 - **Enhance commit messages** - Make existing messages more detailed and professional
 - **Reduce commit messages** - Shorten messages while preserving meaning
+- **Generate PR Summary** - Create comprehensive pull request descriptions from recent commits
 - Reset all settings to defaults
 
-### Message Enhancement Features
+**Prompt Templates Sidebar:**
+- Edit and customize all prompt templates (Generate, Enhance, Reduce)
+- Test prompts with live preview
+- Reset templates to defaults
+- Preview current prompt content
 
+### Advanced Features
+
+#### Message Enhancement
 - **Enhance**: Transform basic commit messages into detailed, professional ones following Git best practices
 - **Reduce**: Shorten lengthy commit messages to meet Git's 50-character recommendation while preserving core meaning
+
+#### Pull Request Summary Generation
+- **Generate PR Summary**: Analyze recent commit messages to create comprehensive pull request descriptions
+- Choose number of commits to include (5, 10, 15, 20, or custom)
+- Select base branch for comparison (main, master, develop, or custom)
+- AI generates structured PR summary with title, overview, grouped changes, and notes
+- Output includes formatted markdown ready for GitHub/GitLab PR descriptions
+- Automatically copies to clipboard for easy pasting
+
+#### Message Cleanup Control
+- **Toggle Cleanup**: Enable/disable automatic AI response cleaning with visual feedback
+- **Status Indicators**: Green checkmark when enabled, red X when disabled
+- **Raw Mode**: When disabled, use unprocessed AI output directly
+- **Cleaned Mode**: When enabled, removes thinking tags, markdown artifacts, and normalizes formatting
 
 ## Extension Settings
 
@@ -84,6 +112,8 @@ This extension contributes the following settings that you can customize:
 | `generate-local-commit.showDiffConfirmation`   | Show confirmation dialog with diff before generating           | `false`                  |
 | `generate-local-commit.enhancePrompt`          | Template for enhancing commit messages with `${message}` placeholder | _(See settings)_         |
 | `generate-local-commit.reducePrompt`           | Template for reducing commit messages with `${message}` placeholder  | _(See settings)_         |
+| `generate-local-commit.prSummaryPrompt`        | Template for generating PR summaries with `${commits}` placeholder    | _(See settings)_         |
+| `generate-local-commit.enableMessageCleanup`   | Enable automatic cleanup of AI responses (tags, formatting)   | `true`                   |
 
 ## Accessing Settings
 
@@ -148,6 +178,38 @@ Types explained:
 
 [DIFF]${diff}[/DIFF]
 ```
+
+## Development
+
+This extension includes development tools for building and maintaining the codebase:
+
+### Available Make Commands
+
+```bash
+# Development workflow
+make dev           # Clean, install, lint, and build
+make release       # Full release build with tests
+
+# Individual commands
+make lint          # Run ESLint on source files
+make lint-fix      # Run ESLint with automatic fixes
+make clean         # Clean build artifacts and cache
+make build         # Build VSIX package
+make test          # Run extension tests
+
+# Utilities
+make help          # Show all available commands
+make info          # Show project information
+make list-vsix     # List generated VSIX files
+```
+
+### Building from Source
+
+1. Clone the repository
+2. Run `make dev` to set up development environment
+3. Make your changes
+4. Run `make lint-fix` to format code
+5. Run `make build` to create VSIX package
 
 ## License
 
