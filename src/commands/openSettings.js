@@ -11,5 +11,5 @@ function openSettings() {
 }
 
 module.exports = {
-  openSettings,
+  openSettings
 };

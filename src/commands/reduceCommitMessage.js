@@ -40,9 +40,9 @@ async function reduceCommitMessage() {
       {
         location: vscode.ProgressLocation.Notification,
         title: 'Reducing commit message with Ollama...',
-        cancellable: false,
+        cancellable: false
       },
-      async () => {
+      async() => {
         try {
           // Get settings
           const settings = settingsService.getAllSettings();
@@ -94,5 +94,5 @@ async function reduceCommitMessage() {
 
 
 module.exports = {
-  reduceCommitMessage,
+  reduceCommitMessage
 };

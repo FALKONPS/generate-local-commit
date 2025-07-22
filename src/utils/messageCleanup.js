@@ -127,5 +127,5 @@ module.exports = {
   removeMarkdownArtifacts,
   normalizeWhitespace,
   cleanCommitMessage,
-  extractAndCleanCommitMessage,
+  extractAndCleanCommitMessage
 };

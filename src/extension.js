@@ -1,7 +1,7 @@
 const vscode = require('vscode');
 const { openSettings } = require('./commands/openSettings');
 const {
-  generateCommitMessageCommand,
+  generateCommitMessageCommand
 } = require('./commands/generateCommitMessage');
 const { showCommitDiff } = require('./commands/showCommitDiff');
 const { enhanceCommitMessage } = require('./commands/enhanceCommitMessage');
@@ -13,12 +13,12 @@ const {
   quickListModels,
   quickSetTemperature,
   quickSetMaxTokens,
-  quickResetSettings,
+  quickResetSettings
 } = require('./commands/quickConfig');
 const {
   editPrompt,
   resetPrompt,
-  testPrompt,
+  testPrompt
 } = require('./commands/promptManagement');
 const { toggleMessageCleanup, setQuickActionsProvider } = require('./commands/toggleMessageCleanup');
 const { QuickActionsProvider } = require('./views/quickActionsProvider');
@@ -125,10 +125,10 @@ function activate(context) {
       VIEW_IDS.quickActionsView,
       quickActionsProvider
     );
-    
+
     // Set the provider instance for the toggle command to refresh the view
     setQuickActionsProvider(quickActionsProvider);
-    
+
     console.log(
       'Quick actions view provider registered for:',
       VIEW_IDS.quickActionsView
@@ -196,5 +196,5 @@ function deactivate() {}
 
 module.exports = {
   activate,
-  deactivate,
+  deactivate
 };

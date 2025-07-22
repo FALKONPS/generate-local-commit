@@ -2,7 +2,7 @@ const vscode = require('vscode');
 const {
   DEFAULT_CONFIG,
   CONFIG_SECTION,
-  VALIDATION_LIMITS,
+  VALIDATION_LIMITS
 } = require('../utils/constants');
 const { getDefaultPromptTemplate, getDefaultEnhancePrompt, getDefaultReducePrompt } = require('../utils/promptTemplate');
 
@@ -35,7 +35,7 @@ class SettingsService {
       enhancePrompt:
         config.get('enhancePrompt') || getDefaultEnhancePrompt(),
       reducePrompt: config.get('reducePrompt') || getDefaultReducePrompt(),
-      enableMessageCleanup: config.get('enableMessageCleanup') !== false,
+      enableMessageCleanup: config.get('enableMessageCleanup') !== false
     };
   }
 
@@ -70,7 +70,7 @@ class SettingsService {
   async resetToDefaults() {
     const defaultSettings = {
       ...DEFAULT_CONFIG,
-      promptTemplate: getDefaultPromptTemplate(),
+      promptTemplate: getDefaultPromptTemplate()
     };
     await this.updateSettings(defaultSettings);
   }
@@ -137,7 +137,7 @@ class SettingsService {
 
     return {
       isValid: errors.length === 0,
-      errors,
+      errors
     };
   }
 
@@ -158,5 +158,5 @@ class SettingsService {
 }
 
 module.exports = {
-  SettingsService,
+  SettingsService
 };

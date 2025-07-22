@@ -33,9 +33,9 @@ async function generateCommitMessageCommand() {
       {
         location: vscode.ProgressLocation.Notification,
         title: 'Generating commit message...',
-        cancellable: false,
+        cancellable: false
       },
-      async (progress) => {
+      async(progress) => {
         progress.report({ increment: 0 });
 
         // Show diff confirmation if enabled
@@ -82,7 +82,7 @@ async function generateCommitMessageCommand() {
           endpoint: ollamaEndpoint,
           model: modelName,
           maxTokens,
-          temperature,
+          temperature
         });
 
         progress.report({ increment: 100 });
@@ -158,5 +158,5 @@ async function setCommitMessage(message) {
 }
 
 module.exports = {
-  generateCommitMessageCommand,
+  generateCommitMessageCommand
 };

@@ -6,7 +6,7 @@ let quickActionsProviderInstance = null;
 
 /**
  * Set the quick actions provider instance for refreshing
- * @param {QuickActionsProvider} provider 
+ * @param {QuickActionsProvider} provider
  */
 function setQuickActionsProvider(provider) {
   quickActionsProviderInstance = provider;
@@ -20,24 +20,24 @@ async function toggleMessageCleanup() {
     const settingsService = new SettingsService();
     const currentSettings = settingsService.getAllSettings();
     const currentState = currentSettings.enableMessageCleanup;
-    
+
     // Toggle the setting
     const newState = !currentState;
     await settingsService.updateSetting('enableMessageCleanup', newState);
-    
+
     // Refresh the tree view to show updated icons
     if (quickActionsProviderInstance) {
       quickActionsProviderInstance.refresh();
     }
-    
+
     // Show confirmation message
     const statusText = newState ? 'enabled' : 'disabled';
     vscode.window.showInformationMessage(
-      `Message cleanup is now ${statusText}. ${newState ? 
-        'AI responses will be cleaned and formatted.' : 
+      `Message cleanup is now ${statusText}. ${newState ?
+        'AI responses will be cleaned and formatted.' :
         'Raw AI responses will be used as-is.'}`
     );
-    
+
     console.log(`Message cleanup toggled: ${currentState} -> ${newState}`);
   } catch (error) {
     console.error('Error toggling message cleanup:', error);
@@ -47,5 +47,5 @@ async function toggleMessageCleanup() {
 
 module.exports = {
   toggleMessageCleanup,
-  setQuickActionsProvider,
+  setQuickActionsProvider
 };

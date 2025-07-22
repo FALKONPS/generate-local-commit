@@ -40,9 +40,9 @@ async function enhanceCommitMessage() {
       {
         location: vscode.ProgressLocation.Notification,
         title: 'Enhancing commit message with Ollama...',
-        cancellable: false,
+        cancellable: false
       },
-      async () => {
+      async() => {
         try {
           // Get settings
           const settings = settingsService.getAllSettings();
@@ -94,5 +94,5 @@ async function enhanceCommitMessage() {
 
 
 module.exports = {
-  enhanceCommitMessage,
+  enhanceCommitMessage
 };

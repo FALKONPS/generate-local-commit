@@ -15,7 +15,7 @@ async function quickChangeModel() {
   const newModel = await vscode.window.showInputBox({
     prompt: 'Enter Ollama model name',
     placeHolder: 'e.g., qwen2.5:3b, llama3:8b, codellama:7b',
-    value: currentSettings.model,
+    value: currentSettings.model
   });
 
   if (newModel && newModel.trim() !== '') {
@@ -45,7 +45,7 @@ async function quickChangeEndpoint() {
   const newEndpoint = await vscode.window.showInputBox({
     prompt: 'Enter Ollama API endpoint URL',
     placeHolder: 'e.g., http://localhost:11434, http://192.168.1.100:11434',
-    value: currentSettings.endpoint,
+    value: currentSettings.endpoint
   });
 
   if (newEndpoint && newEndpoint.trim() !== '') {
@@ -69,7 +69,7 @@ async function quickPullModel() {
   // Show input box for model name
   const modelName = await vscode.window.showInputBox({
     prompt: 'Enter model name to pull from Ollama',
-    placeHolder: 'e.g., qwen2.5:3b, llama3:8b, codellama:7b',
+    placeHolder: 'e.g., qwen2.5:3b, llama3:8b, codellama:7b'
   });
 
   if (!modelName || modelName.trim() === '') {
@@ -84,9 +84,9 @@ async function quickPullModel() {
     {
       location: vscode.ProgressLocation.Notification,
       title: `Pulling model: ${modelName.trim()}`,
-      cancellable: false,
+      cancellable: false
     },
-    async (progress) => {
+    async(progress) => {
       progress.report({ increment: 0 });
 
       try {
@@ -96,7 +96,7 @@ async function quickPullModel() {
         const response = await axios.post(
           `${currentSettings.endpoint}/api/pull`,
           {
-            name: modelName.trim(),
+            name: modelName.trim()
           }
         );
 
@@ -108,7 +108,7 @@ async function quickPullModel() {
 
         // Ask if user wants to set this as the active model
         const setAsActive = await vscode.window.showQuickPick(['Yes', 'No'], {
-          placeHolder: `Set ${modelName.trim()} as the active model?`,
+          placeHolder: `Set ${modelName.trim()} as the active model?`
         });
 
         if (setAsActive === 'Yes') {
@@ -153,13 +153,13 @@ async function quickListModels() {
       label: model.name,
       detail: `Size: ${(model.size / 1024 / 1024 / 1024).toFixed(1)}GB`,
       description: model.name === currentSettings.model ? '(active)' : '',
-      model: model.name,
+      model: model.name
     }));
 
     // Show quick pick
     const selected = await vscode.window.showQuickPick(modelItems, {
       placeHolder: 'Select a model to set as active',
-      matchOnDetail: true,
+      matchOnDetail: true
     });
 
     if (selected && selected.model !== currentSettings.model) {
@@ -188,11 +188,11 @@ async function quickSetTemperature() {
     { label: '0.5 - Balanced', value: 0.5 },
     { label: '0.7 - Creative', value: 0.7 },
     { label: '1.0 - Very creative', value: 1.0 },
-    { label: 'Custom value...', value: 'custom' },
+    { label: 'Custom value...', value: 'custom' }
   ];
 
   const selected = await vscode.window.showQuickPick(tempOptions, {
-    placeHolder: `Current temperature: ${currentSettings.temperature}`,
+    placeHolder: `Current temperature: ${currentSettings.temperature}`
   });
 
   if (!selected) return;
@@ -210,7 +210,7 @@ async function quickSetTemperature() {
           return 'Temperature must be a number between 0.0 and 2.0';
         }
         return null;
-      },
+      }
     });
 
     if (!customTemp) return;
@@ -243,11 +243,11 @@ async function quickSetMaxTokens() {
     { label: '1000 - Large', value: 1000 },
     { label: '5000 - Very large', value: 5000 },
     { label: '30000 - Thick mode (for complex diffs)', value: 30000 },
-    { label: 'Custom value...', value: 'custom' },
+    { label: 'Custom value...', value: 'custom' }
   ];
 
   const selected = await vscode.window.showQuickPick(tokenOptions, {
-    placeHolder: `Current max tokens: ${currentSettings.maxTokens}. Note: Thick mode (30000) is for complex diffs, normal mode (300) for regular use.`,
+    placeHolder: `Current max tokens: ${currentSettings.maxTokens}. Note: Thick mode (30000) is for complex diffs, normal mode (300) for regular use.`
   });
 
   if (!selected) return;
@@ -265,7 +265,7 @@ async function quickSetMaxTokens() {
           return 'Max tokens must be a number between 50 and 50000';
         }
         return null;
-      },
+      }
     });
 
     if (!customTokens) return;
@@ -318,5 +318,5 @@ module.exports = {
   quickListModels,
   quickSetTemperature,
   quickSetMaxTokens,
-  quickResetSettings,
+  quickResetSettings
 };

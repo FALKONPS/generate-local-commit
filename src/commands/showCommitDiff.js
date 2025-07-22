@@ -24,7 +24,7 @@ async function showCommitDiff(commitHash) {
     // Create a new untitled document with the diff
     const document = await vscode.workspace.openTextDocument({
       content: stdout,
-      language: 'diff',
+      language: 'diff'
     });
 
     // Show the document
@@ -38,5 +38,5 @@ async function showCommitDiff(commitHash) {
 }
 
 module.exports = {
-  showCommitDiff,
+  showCommitDiff
 };
