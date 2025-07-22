@@ -92,8 +92,44 @@ Current commit message: \${message}
 Please provide a shorter, more concise Git commit message following these guidelines:`;
 }
 
+/**
+ * Get the default PR summary prompt template
+ * @returns {string} The default PR summary prompt template
+ */
+function getDefaultPrSummaryPrompt() {
+  return `You are an expert developer creating a pull request summary. Your task is to analyze the provided commit messages and generate a comprehensive PR description that explains the overall changes and their purpose.
+
+Pull Request Summary Guidelines:
+1. Create a clear, descriptive title for the PR
+2. Provide a brief overview of what this PR accomplishes
+3. Group related commits into logical sections
+4. Highlight breaking changes or important notes
+5. Use bullet points for clarity
+6. Focus on the business value and impact
+7. Include any relevant technical details
+8. Use professional, clear language
+
+Structure your response as:
+**Title:** [Descriptive PR title]
+
+**Summary:**
+[Brief overview paragraph]
+
+**Changes:**
+- [Grouped list of changes from commits]
+
+**Additional Notes:**
+[Any important information, breaking changes, or special instructions]
+
+Recent commit messages:
+\${commits}
+
+Please provide a well-structured pull request summary:`;
+}
+
 module.exports = {
   getDefaultPromptTemplate,
   getDefaultEnhancePrompt,
-  getDefaultReducePrompt
+  getDefaultReducePrompt,
+  getDefaultPrSummaryPrompt
 };

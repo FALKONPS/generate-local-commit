@@ -254,6 +254,16 @@ class QuickActionsProvider {
           title: 'Reduce Message'
         },
         'Shorten existing commit message while preserving meaning'
+      ),
+      new ActionItem(
+        'Generate PR Summary',
+        vscode.TreeItemCollapsibleState.None,
+        'action',
+        {
+          command: COMMAND_IDS.generatePrSummary,
+          title: 'Generate PR Summary'
+        },
+        'Create a pull request summary from recent commit messages'
       )
     ];
   }

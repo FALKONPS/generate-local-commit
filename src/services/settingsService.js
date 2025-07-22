@@ -4,7 +4,7 @@ const {
   CONFIG_SECTION,
   VALIDATION_LIMITS
 } = require('../utils/constants');
-const { getDefaultPromptTemplate, getDefaultEnhancePrompt, getDefaultReducePrompt } = require('../utils/promptTemplate');
+const { getDefaultPromptTemplate, getDefaultEnhancePrompt, getDefaultReducePrompt, getDefaultPrSummaryPrompt } = require('../utils/promptTemplate');
 
 /**
  * Service for managing extension settings
@@ -35,6 +35,8 @@ class SettingsService {
       enhancePrompt:
         config.get('enhancePrompt') || getDefaultEnhancePrompt(),
       reducePrompt: config.get('reducePrompt') || getDefaultReducePrompt(),
+      prSummaryPrompt:
+        config.get('prSummaryPrompt') || getDefaultPrSummaryPrompt(),
       enableMessageCleanup: config.get('enableMessageCleanup') !== false
     };
   }
