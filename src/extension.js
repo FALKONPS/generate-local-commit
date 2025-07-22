@@ -21,6 +21,7 @@ const {
   testPrompt
 } = require('./commands/promptManagement');
 const { toggleMessageCleanup, setQuickActionsProvider } = require('./commands/toggleMessageCleanup');
+const { generatePrSummaryCommand } = require('./commands/generatePrSummary');
 const { QuickActionsProvider } = require('./views/quickActionsProvider');
 const { PromptManagementProvider } = require('./views/promptManagementProvider');
 const { HistoryViewProvider } = require('./views/historyViewProvider');
@@ -117,6 +118,11 @@ function activate(context) {
       toggleMessageCleanup
     );
 
+    const generatePrSummaryCommandRegistration = vscode.commands.registerCommand(
+      COMMAND_IDS.generatePrSummary,
+      generatePrSummaryCommand
+    );
+
     // Register view providers immediately
     console.log('Registering view providers...');
 
@@ -169,6 +175,7 @@ function activate(context) {
       resetPromptCommand,
       testPromptCommand,
       toggleMessageCleanupCommand,
+      generatePrSummaryCommandRegistration,
       quickActionsViewDisposable,
       promptManagementViewDisposable,
       historyViewDisposable

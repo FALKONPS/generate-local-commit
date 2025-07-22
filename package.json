@@ -105,6 +105,11 @@
         "command": "generate-local-commit.toggleMessageCleanup",
         "title": "Toggle Message Cleanup",
         "icon": "$(filter)"
+      },
+      {
+        "command": "generate-local-commit.generatePrSummary",
+        "title": "Generate PR Summary",
+        "icon": "$(git-pull-request)"
       }
     ],
     "menus": {
@@ -176,6 +181,9 @@
         },
         {
           "command": "generate-local-commit.toggleMessageCleanup"
+        },
+        {
+          "command": "generate-local-commit.generatePrSummary"
         }
       ]
     },
@@ -269,6 +277,10 @@
           "type": "boolean",
           "default": true,
           "description": "Enable automatic cleanup of AI responses (removes thinking tags, markdown artifacts, and normalizes whitespace). When disabled, raw AI output is used as-is."
+        },
+        "generate-local-commit.prSummaryPrompt": {
+          "type": "string",
+          "description": "Template for the prompt sent to Ollama to generate PR summaries from commit messages. IMPORTANT: Must contain '${commits}' placeholder which will be replaced with the actual commit messages."
         }
       }
     }

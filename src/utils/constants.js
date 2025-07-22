@@ -31,7 +31,8 @@ const COMMAND_IDS = {
   editPrompt: 'generate-local-commit.editPrompt',
   resetPrompt: 'generate-local-commit.resetPrompt',
   testPrompt: 'generate-local-commit.testPrompt',
-  toggleMessageCleanup: 'generate-local-commit.toggleMessageCleanup'
+  toggleMessageCleanup: 'generate-local-commit.toggleMessageCleanup',
+  generatePrSummary: 'generate-local-commit.generatePrSummary'
 };
 
 const VIEW_IDS = {
