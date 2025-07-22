@@ -102,15 +102,15 @@ async function testPrompt(promptType, actionLabel) {
       }
 
       const prompt = currentSettings.promptTemplate.replace('${diff}', diff);
-      
+
       vscode.window.withProgress({
         location: vscode.ProgressLocation.Notification,
         title: 'Testing prompt...',
         cancellable: false
-      }, async () => {
+      }, async() => {
         try {
           const result = await generateCommitMessage(prompt, currentSettings);
-          
+
           // Show result in new document
           const doc = await vscode.workspace.openTextDocument({
             content: `Test Result for ${actionLabel} Prompt:\n\n${result}\n\n---\nPrompt used:\n${prompt}`,
@@ -133,7 +133,7 @@ async function testPrompt(promptType, actionLabel) {
 
       if (!sampleMessage) return;
 
-      const promptTemplate = promptType === 'enhancePrompt' ? 
+      const promptTemplate = promptType === 'enhancePrompt' ?
         currentSettings.enhancePrompt : currentSettings.reducePrompt;
       const prompt = promptTemplate.replace('${message}', sampleMessage);
 
@@ -141,10 +141,10 @@ async function testPrompt(promptType, actionLabel) {
         location: vscode.ProgressLocation.Notification,
         title: 'Testing prompt...',
         cancellable: false
-      }, async () => {
+      }, async() => {
         try {
           const result = await generateCommitMessage(prompt, currentSettings);
-          
+
           // Show result in new document
           const doc = await vscode.workspace.openTextDocument({
             content: `Test Result for ${actionLabel} Prompt:\n\nOriginal: ${sampleMessage}\nResult: ${result}\n\n---\nPrompt used:\n${prompt}`,
@@ -164,7 +164,7 @@ async function testPrompt(promptType, actionLabel) {
 
 /**
  * Get placeholder text for prompt type
- * @param {string} promptType 
+ * @param {string} promptType
  * @returns {string}
  */
 function getPlaceholderText(promptType) {
@@ -182,7 +182,7 @@ function getPlaceholderText(promptType) {
 
 /**
  * Get prompt requirements text
- * @param {string} promptType 
+ * @param {string} promptType
  * @returns {string}
  */
 function getPromptRequirements(promptType) {
@@ -199,8 +199,8 @@ function getPromptRequirements(promptType) {
 
 /**
  * Validate a prompt template
- * @param {string} prompt 
- * @param {string} promptType 
+ * @param {string} prompt
+ * @param {string} promptType
  * @returns {{isValid: boolean, error?: string}}
  */
 function validatePrompt(prompt, promptType) {
@@ -228,5 +228,5 @@ function validatePrompt(prompt, promptType) {
 module.exports = {
   editPrompt,
   resetPrompt,
-  testPrompt,
+  testPrompt
 };

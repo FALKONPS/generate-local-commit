@@ -77,7 +77,7 @@ class HistoryViewProvider {
           return new CommitItem(`${shortHash}: ${message}`, tooltip, 'commit', {
             command: COMMAND_IDS.showCommitDiff,
             title: 'Show Diff',
-            arguments: [hash],
+            arguments: [hash]
           });
         });
 
@@ -114,5 +114,5 @@ class CommitItem extends vscode.TreeItem {
 }
 
 module.exports = {
-  HistoryViewProvider,
+  HistoryViewProvider
 };

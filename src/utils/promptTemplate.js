@@ -95,5 +95,5 @@ Please provide a shorter, more concise Git commit message following these guidel
 module.exports = {
   getDefaultPromptTemplate,
   getDefaultEnhancePrompt,
-  getDefaultReducePrompt,
+  getDefaultReducePrompt
 };

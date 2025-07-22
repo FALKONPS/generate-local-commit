@@ -22,7 +22,7 @@ class OllamaService {
       model = this.defaultConfig.model,
       maxTokens = this.defaultConfig.maxTokens,
       temperature = this.defaultConfig.temperature,
-      enableMessageCleanup = this.defaultConfig.enableMessageCleanup,
+      enableMessageCleanup = this.defaultConfig.enableMessageCleanup
     } = config;
 
     try {
@@ -32,15 +32,15 @@ class OllamaService {
         stream: false,
         options: {
           temperature: temperature,
-          num_predict: maxTokens,
-        },
+          num_predict: maxTokens
+        }
       });
 
       const rawMessage = response.data.response.trim();
 
       // Extract and optionally clean the commit message based on settings
-      const message = enableMessageCleanup ? 
-        extractAndCleanCommitMessage(rawMessage) : 
+      const message = enableMessageCleanup ?
+        extractAndCleanCommitMessage(rawMessage) :
         rawMessage;
 
       return message;
@@ -64,5 +64,5 @@ async function generateCommitMessage(prompt, config) {
 
 module.exports = {
   OllamaService,
-  generateCommitMessage,
+  generateCommitMessage
 };

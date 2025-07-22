@@ -51,7 +51,7 @@ class QuickActionsProvider {
           'System Actions',
           vscode.TreeItemCollapsibleState.Expanded,
           'category'
-        ),
+        )
       ];
     }
 
@@ -89,7 +89,7 @@ class QuickActionsProvider {
         'action',
         {
           command: COMMAND_IDS.quickChangeModel,
-          title: 'Change Model',
+          title: 'Change Model'
         },
         'Switch to a different model'
       ),
@@ -99,7 +99,7 @@ class QuickActionsProvider {
         'action',
         {
           command: COMMAND_IDS.quickListModels,
-          title: 'List Models',
+          title: 'List Models'
         },
         'View all downloaded models'
       ),
@@ -109,10 +109,10 @@ class QuickActionsProvider {
         'action',
         {
           command: COMMAND_IDS.quickPullModel,
-          title: 'Pull Model',
+          title: 'Pull Model'
         },
         'Download a new model from registry'
-      ),
+      )
     ];
   }
 
@@ -137,7 +137,7 @@ class QuickActionsProvider {
         'action',
         {
           command: COMMAND_IDS.quickChangeEndpoint,
-          title: 'Change Endpoint',
+          title: 'Change Endpoint'
         },
         'Change Ollama API endpoint'
       ),
@@ -154,7 +154,7 @@ class QuickActionsProvider {
         'action',
         {
           command: COMMAND_IDS.quickSetTemperature,
-          title: 'Set Temperature',
+          title: 'Set Temperature'
         },
         'Adjust generation randomness'
       ),
@@ -171,7 +171,7 @@ class QuickActionsProvider {
         'action',
         {
           command: COMMAND_IDS.quickSetMaxTokens,
-          title: 'Set Max Tokens',
+          title: 'Set Max Tokens'
         },
         'Change max tokens (300 normal, 30000 thick mode)'
       ),
@@ -189,13 +189,13 @@ class QuickActionsProvider {
         'cleanup-action',
         {
           command: COMMAND_IDS.toggleMessageCleanup,
-          title: 'Toggle Message Cleanup',
+          title: 'Toggle Message Cleanup'
         },
-        currentSettings.enableMessageCleanup ? 
-          'Disable automatic cleaning of AI responses (use raw output)' : 
+        currentSettings.enableMessageCleanup ?
+          'Disable automatic cleaning of AI responses (use raw output)' :
           'Enable automatic cleaning of AI responses (remove tags and artifacts)',
         currentSettings.enableMessageCleanup
-      ),
+      )
     ];
   }
 
@@ -211,7 +211,7 @@ class QuickActionsProvider {
         'action',
         {
           command: COMMAND_IDS.openSettings,
-          title: 'Open Settings',
+          title: 'Open Settings'
         },
         'Open full settings interface'
       ),
@@ -221,7 +221,7 @@ class QuickActionsProvider {
         'action',
         {
           command: COMMAND_IDS.quickResetSettings,
-          title: 'Reset Settings',
+          title: 'Reset Settings'
         },
         'Reset to default values'
       ),
@@ -231,7 +231,7 @@ class QuickActionsProvider {
         'action',
         {
           command: COMMAND_IDS.generateCommitMessage,
-          title: 'Generate Commit',
+          title: 'Generate Commit'
         },
         'Generate commit message for current changes'
       ),
@@ -241,7 +241,7 @@ class QuickActionsProvider {
         'action',
         {
           command: COMMAND_IDS.enhanceCommitMessage,
-          title: 'Enhance Message',
+          title: 'Enhance Message'
         },
         'Enhance existing commit message with more detail'
       ),
@@ -251,10 +251,10 @@ class QuickActionsProvider {
         'action',
         {
           command: COMMAND_IDS.reduceCommitMessage,
-          title: 'Reduce Message',
+          title: 'Reduce Message'
         },
         'Shorten existing commit message while preserving meaning'
-      ),
+      )
     ];
   }
 }
@@ -314,5 +314,5 @@ class ActionItem extends vscode.TreeItem {
 }
 
 module.exports = {
-  QuickActionsProvider,
+  QuickActionsProvider
 };

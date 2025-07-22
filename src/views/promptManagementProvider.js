@@ -54,7 +54,7 @@ class PromptManagementProvider {
           vscode.TreeItemCollapsibleState.Expanded,
           'category',
           'reducePrompt'
-        ),
+        )
       ];
     }
 
@@ -80,9 +80,9 @@ class PromptManagementProvider {
   async getPromptActions(promptType, actionLabel) {
     const currentSettings = this.settingsService.getAllSettings();
     const currentPrompt = currentSettings[promptType];
-    
+
     // Show preview of current prompt (first 100 characters)
-    const promptPreview = currentPrompt ? 
+    const promptPreview = currentPrompt ?
       (currentPrompt.length > 100 ? currentPrompt.substring(0, 100) + '...' : currentPrompt) :
       'No custom prompt set';
 
@@ -130,7 +130,7 @@ class PromptManagementProvider {
           arguments: [promptType, actionLabel]
         },
         `Test the ${actionLabel.toLowerCase()} prompt with current changes`
-      ),
+      )
     ];
   }
 }
@@ -178,5 +178,5 @@ class PromptItem extends vscode.TreeItem {
 }
 
 module.exports = {
-  PromptManagementProvider,
+  PromptManagementProvider
 };

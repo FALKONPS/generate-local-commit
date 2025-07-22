@@ -10,7 +10,7 @@ const DEFAULT_CONFIG = {
   contextRange: 3,
   useConventionalCommits: true,
   showDiffConfirmation: false,
-  enableMessageCleanup: true,
+  enableMessageCleanup: true
 };
 
 const CONFIG_SECTION = 'generate-local-commit';
@@ -31,13 +31,13 @@ const COMMAND_IDS = {
   editPrompt: 'generate-local-commit.editPrompt',
   resetPrompt: 'generate-local-commit.resetPrompt',
   testPrompt: 'generate-local-commit.testPrompt',
-  toggleMessageCleanup: 'generate-local-commit.toggleMessageCleanup',
+  toggleMessageCleanup: 'generate-local-commit.toggleMessageCleanup'
 };
 
 const VIEW_IDS = {
   quickActionsView: 'generate-local-commit.quickActionsView',
   historyView: 'generate-local-commit.historyView',
-  promptManagementView: 'generate-local-commit.promptManagementView',
+  promptManagementView: 'generate-local-commit.promptManagementView'
 };
 
 const VALIDATION_LIMITS = {
@@ -46,7 +46,7 @@ const VALIDATION_LIMITS = {
   temperatureMin: 0,
   temperatureMax: 2,
   contextRangeMin: 0,
-  contextRangeMax: 100,
+  contextRangeMax: 100
 };
 
 module.exports = {
@@ -54,5 +54,5 @@ module.exports = {
   CONFIG_SECTION,
   COMMAND_IDS,
   VIEW_IDS,
-  VALIDATION_LIMITS,
+  VALIDATION_LIMITS
 };

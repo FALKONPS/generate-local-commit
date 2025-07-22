@@ -20,7 +20,7 @@ async function getGitDiff(contextRange = 0) {
     if (!stagedChanges.trim()) {
       // If no staged changes, check if there are unstaged changes
       const { stdout: unstagedChanges } = await exec('git diff --name-only', {
-        cwd: rootPath,
+        cwd: rootPath
       });
 
       if (!unstagedChanges.trim()) {
@@ -29,14 +29,14 @@ async function getGitDiff(contextRange = 0) {
 
       // Get diff of unstaged changes with context
       const { stdout: diff } = await exec(`git diff -U${contextRange}`, {
-        cwd: rootPath,
+        cwd: rootPath
       });
       return diff;
     }
 
     // Get diff of staged changes with context
     const { stdout: diff } = await exec(`git diff --staged -U${contextRange}`, {
-      cwd: rootPath,
+      cwd: rootPath
     });
     return diff;
   } catch (error) {
@@ -48,5 +48,5 @@ async function getGitDiff(contextRange = 0) {
 }
 
 module.exports = {
-  getGitDiff,
+  getGitDiff
 };
