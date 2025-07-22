@@ -1,31 +1,52 @@
 const vscode = require('vscode');
 const { getGitDiff } = require('../services/gitService');
 const { generateCommitMessage } = require('../services/ollamaService');
-const { getDefaultPromptTemplate } = require('../utils/promptTemplate');
-const { DEFAULT_CONFIG, CONFIG_SECTION } = require('../utils/constants');
+const { SettingsService } = require('../services/settingsService');
+const { DebugService } = require('../services/debugService');
 
 /**
  * Command to generate commit message using Ollama
  */
 async function generateCommitMessageCommand() {
   try {
-    const config = vscode.workspace.getConfiguration(CONFIG_SECTION);
-    const ollamaEndpoint = config.get('endpoint') || DEFAULT_CONFIG.endpoint;
-    const modelName = config.get('model') || DEFAULT_CONFIG.model;
-    const maxTokens = config.get('maxTokens') || DEFAULT_CONFIG.maxTokens;
-    const temperature = config.get('temperature') || DEFAULT_CONFIG.temperature;
-    const useConventionalCommits =
-      config.get('useConventionalCommits') !== false;
-    const showDiffConfirmation =
-      config.get('showDiffConfirmation') || DEFAULT_CONFIG.showDiffConfirmation;
-    const contextRange =
-      config.get('contextRange') || DEFAULT_CONFIG.contextRange;
+    const settingsService = new SettingsService();
+    const settings = settingsService.getAllSettings();
+    const debugService = new DebugService();
 
     // Get git diff to analyze changes with context
-    const diff = await getGitDiff(contextRange);
+    const diff = await getGitDiff(settings.contextRange);
     if (!diff) {
       vscode.window.showInformationMessage('No changes to commit.');
       return;
+    }
+
+    // Validate that the template contains the ${diff} placeholder
+    if (!settings.promptTemplate.includes('${diff}')) {
+      vscode.window.showErrorMessage(
+        'Error: Prompt template must contain the ${diff} placeholder. Please update your settings.'
+      );
+      vscode.commands.executeCommand(
+        'workbench.action.openSettings',
+        'generate-local-commit.promptTemplate'
+      );
+      return;
+    }
+
+    // Replace the diff placeholder with the actual diff
+    const prompt = settings.promptTemplate.replace('${diff}', diff);
+
+    // Debug mode: Show preview before proceeding
+    if (settings.enableDebugMode) {
+      const shouldProceed = await debugService.showDebugPreview({
+        diff,
+        prompt,
+        action: 'generate',
+        settings
+      });
+
+      if (!shouldProceed) {
+        return; // User cancelled
+      }
     }
 
     // Show progress notification
@@ -36,54 +57,10 @@ async function generateCommitMessageCommand() {
         cancellable: false
       },
       async(progress) => {
-        progress.report({ increment: 0 });
-
-        // Show diff confirmation if enabled
-        if (showDiffConfirmation) {
-          const diffPreview =
-            diff.length > 1000 ? diff.substring(0, 1000) + '...' : diff;
-          const confirmResult = await vscode.window.showInformationMessage(
-            'Generate commit message for these changes?',
-            { modal: true, detail: diffPreview },
-            'Generate',
-            'Cancel'
-          );
-
-          if (confirmResult !== 'Generate') {
-            return; // User cancelled
-          }
-        }
-
-        // Get prompt template from settings and check if it contains the diff placeholder
-        let promptTemplate = config.get('promptTemplate');
-        if (!promptTemplate) {
-          promptTemplate = getDefaultPromptTemplate();
-        }
-
-        // Validate that the template contains the ${diff} placeholder
-        if (!promptTemplate.includes('${diff}')) {
-          vscode.window.showErrorMessage(
-            'Error: Prompt template must contain the ${diff} placeholder. Please update your settings.'
-          );
-
-          // Show settings with focus on the promptTemplate setting
-          vscode.commands.executeCommand(
-            'workbench.action.openSettings',
-            'generate-local-commit.promptTemplate'
-          );
-          return;
-        }
-
-        // Replace the diff placeholder with the actual diff
-        const prompt = promptTemplate.replace('${diff}', diff);
+        progress.report({ increment: 50 });
 
         // Generate commit message using Ollama service
-        const message = await generateCommitMessage(prompt, {
-          endpoint: ollamaEndpoint,
-          model: modelName,
-          maxTokens,
-          temperature
-        });
+        const message = await generateCommitMessage(prompt, settings);
 
         progress.report({ increment: 100 });
 
@@ -93,6 +70,18 @@ async function generateCommitMessageCommand() {
             'Empty commit message returned. Please try again or write a manual message.'
           );
           return;
+        }
+
+        // Debug mode: Show AI response details
+        if (settings.enableDebugMode) {
+          // Note: We can't easily get the raw response here since it's processed in OllamaService
+          // But we can still show the final result
+          await debugService.showResponseDebug(
+            message, // We'll show the final message as both raw and cleaned
+            message,
+            'generate',
+            settings.enableMessageCleanup
+          );
         }
 
         // Set the commit message in the Git input box

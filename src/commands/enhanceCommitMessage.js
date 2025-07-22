@@ -1,6 +1,7 @@
 const vscode = require('vscode');
 const { OllamaService } = require('../services/ollamaService');
 const { SettingsService } = require('../services/settingsService');
+const { DebugService } = require('../services/debugService');
 const { cleanCommitMessage } = require('../utils/messageCleanup');
 const { getDefaultEnhancePrompt } = require('../utils/promptTemplate');
 
@@ -10,6 +11,7 @@ const { getDefaultEnhancePrompt } = require('../utils/promptTemplate');
 async function enhanceCommitMessage() {
   const ollamaService = new OllamaService();
   const settingsService = new SettingsService();
+  const debugService = new DebugService();
 
   try {
     // Get the current commit message from the git interface
@@ -35,6 +37,27 @@ async function enhanceCommitMessage() {
       return;
     }
 
+    // Get settings
+    const settings = settingsService.getAllSettings();
+    const enhancePrompt = settings.enhancePrompt || getDefaultEnhancePrompt();
+
+    // Replace placeholder with actual message
+    const prompt = enhancePrompt.replace('${message}', currentMessage);
+
+    // Debug mode: Show preview before proceeding
+    if (settings.enableDebugMode) {
+      const shouldProceed = await debugService.showDebugPreview({
+        prompt,
+        action: 'enhance',
+        settings,
+        commitMessage: currentMessage
+      });
+
+      if (!shouldProceed) {
+        return; // User cancelled
+      }
+    }
+
     // Show progress
     await vscode.window.withProgress(
       {
@@ -44,14 +67,6 @@ async function enhanceCommitMessage() {
       },
       async() => {
         try {
-          // Get settings
-          const settings = settingsService.getAllSettings();
-          const enhancePrompt =
-            settings.enhancePrompt || getDefaultEnhancePrompt();
-
-          // Replace placeholder with actual message
-          const prompt = enhancePrompt.replace('${message}', currentMessage);
-
           // Generate enhanced message
           const rawEnhancedMessage = await ollamaService.generateCommitMessage(
             prompt,
@@ -60,7 +75,18 @@ async function enhanceCommitMessage() {
 
           if (rawEnhancedMessage) {
             // Clean up the message using messageCleanup utility
-            const enhancedMessage = cleanCommitMessage(rawEnhancedMessage);
+            const enhancedMessage = settings.enableMessageCleanup ?
+              cleanCommitMessage(rawEnhancedMessage) : rawEnhancedMessage;
+
+            // Debug mode: Show AI response details
+            if (settings.enableDebugMode) {
+              await debugService.showResponseDebug(
+                rawEnhancedMessage,
+                enhancedMessage,
+                'enhance',
+                settings.enableMessageCleanup
+              );
+            }
 
             if (enhancedMessage) {
               // Update the commit message in the git interface

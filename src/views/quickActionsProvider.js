@@ -195,6 +195,27 @@ class QuickActionsProvider {
           'Disable automatic cleaning of AI responses (use raw output)' :
           'Enable automatic cleaning of AI responses (remove tags and artifacts)',
         currentSettings.enableMessageCleanup
+      ),
+      new ActionItem(
+        `Debug Mode: ${currentSettings.enableDebugMode ? 'Enabled' : 'Disabled'}`,
+        vscode.TreeItemCollapsibleState.None,
+        'debug-info',
+        null,
+        'Current debug mode status',
+        currentSettings.enableDebugMode
+      ),
+      new ActionItem(
+        currentSettings.enableDebugMode ? 'Disable Debug Mode' : 'Enable Debug Mode',
+        vscode.TreeItemCollapsibleState.None,
+        'debug-action',
+        {
+          command: COMMAND_IDS.toggleDebugMode,
+          title: 'Toggle Debug Mode'
+        },
+        currentSettings.enableDebugMode ?
+          'Disable markdown preview before AI requests' :
+          'Enable markdown preview before AI requests',
+        currentSettings.enableDebugMode
       )
     ];
   }
@@ -308,6 +329,20 @@ class ActionItem extends vscode.TreeItem {
           new vscode.ThemeColor(isEnabled ? 'testing.iconPassed' : 'testing.iconFailed')
         );
         break;
+      case 'debug-info':
+        // Debug status indicator: bug icon with state colors
+        this.iconPath = new vscode.ThemeIcon(
+          isEnabled ? 'bug' : 'debug-alt',
+          new vscode.ThemeColor(isEnabled ? 'testing.iconPassed' : 'testing.iconFailed')
+        );
+        break;
+      case 'debug-action':
+        // Debug toggle button
+        this.iconPath = new vscode.ThemeIcon(
+          'debug',
+          new vscode.ThemeColor(isEnabled ? 'testing.iconPassed' : 'testing.iconFailed')
+        );
+        break;
       case 'info':
         this.iconPath = new vscode.ThemeIcon('info');
         break;
@@ -316,7 +351,7 @@ class ActionItem extends vscode.TreeItem {
     }
 
     // Style info items differently
-    if (type === 'info' || type === 'cleanup-info') {
+    if (type === 'info' || type === 'cleanup-info' || type === 'debug-info') {
       this.description = '';
       this.resourceUri = vscode.Uri.parse('info://current');
     }

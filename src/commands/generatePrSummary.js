@@ -2,6 +2,7 @@ const vscode = require('vscode');
 const { getRecentCommitMessages } = require('../services/gitService');
 const { generateCommitMessage } = require('../services/ollamaService');
 const { SettingsService } = require('../services/settingsService');
+const { DebugService } = require('../services/debugService');
 const { getDefaultPrSummaryPrompt } = require('../utils/promptTemplate');
 
 /**
@@ -10,6 +11,7 @@ const { getDefaultPrSummaryPrompt } = require('../utils/promptTemplate');
 async function generatePrSummaryCommand() {
   try {
     const settingsService = new SettingsService();
+    const debugService = new DebugService();
     const settings = settingsService.getAllSettings();
 
     // Get user preferences for commit count and base branch
@@ -96,16 +98,44 @@ async function generatePrSummaryCommand() {
         const prSummaryPrompt = settings.prSummaryPrompt || getDefaultPrSummaryPrompt();
         const prompt = prSummaryPrompt.replace('${commits}', commitsText);
 
+        // Debug mode: Show preview before proceeding
+        if (settings.enableDebugMode) {
+          const shouldProceed = await debugService.showDebugPreview({
+            prompt,
+            action: 'pr-summary',
+            settings,
+            commits: commitsText
+          });
+
+          if (!shouldProceed) {
+            return; // User cancelled
+          }
+        }
+
         progress.report({ increment: 60, message: 'Generating summary...' });
 
         // Generate PR summary
-        const summary = await generateCommitMessage(prompt, settings);
+        const rawSummary = await generateCommitMessage(prompt, settings);
 
         progress.report({ increment: 100 });
 
-        if (!summary || summary.trim() === '') {
+        if (!rawSummary || rawSummary.trim() === '') {
           vscode.window.showWarningMessage('Empty PR summary generated. Please try again.');
           return;
+        }
+
+        // Apply message cleanup if enabled
+        const summary = settings.enableMessageCleanup ?
+          require('../utils/messageCleanup').cleanCommitMessage(rawSummary) : rawSummary;
+
+        // Debug mode: Show AI response details
+        if (settings.enableDebugMode) {
+          await debugService.showResponseDebug(
+            rawSummary,
+            summary,
+            'pr-summary',
+            settings.enableMessageCleanup
+          );
         }
 
         // Show the generated summary in a new document

@@ -37,7 +37,8 @@ class SettingsService {
       reducePrompt: config.get('reducePrompt') || getDefaultReducePrompt(),
       prSummaryPrompt:
         config.get('prSummaryPrompt') || getDefaultPrSummaryPrompt(),
-      enableMessageCleanup: config.get('enableMessageCleanup') !== false
+      enableMessageCleanup: config.get('enableMessageCleanup') !== false,
+      enableDebugMode: config.get('enableDebugMode') === true
     };
   }
 

@@ -28,13 +28,13 @@ async function getRecentCommitMessages(count = 10, baseBranch = 'main') {
         const fallbackResult = await exec(gitCommand, { cwd: rootPath });
         commits = fallbackResult.stdout;
       }
-    } catch (baseBranchError) {
+    } catch {
       // Base branch doesn't exist, get recent commits from current branch
       try {
         gitCommand = `git log -${count} --pretty=format:"%s" --no-merges`;
         const fallbackResult = await exec(gitCommand, { cwd: rootPath });
         commits = fallbackResult.stdout;
-      } catch (fallbackError) {
+      } catch {
         // Try without --no-merges in case that's causing issues
         gitCommand = `git log -${count} --pretty=format:"%s"`;
         const finalResult = await exec(gitCommand, { cwd: rootPath });

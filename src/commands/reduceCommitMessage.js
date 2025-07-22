@@ -1,6 +1,7 @@
 const vscode = require('vscode');
 const { OllamaService } = require('../services/ollamaService');
 const { SettingsService } = require('../services/settingsService');
+const { DebugService } = require('../services/debugService');
 const { cleanCommitMessage } = require('../utils/messageCleanup');
 const { getDefaultReducePrompt } = require('../utils/promptTemplate');
 
@@ -10,6 +11,7 @@ const { getDefaultReducePrompt } = require('../utils/promptTemplate');
 async function reduceCommitMessage() {
   const ollamaService = new OllamaService();
   const settingsService = new SettingsService();
+  const debugService = new DebugService();
 
   try {
     // Get the current commit message from the git interface
@@ -35,6 +37,27 @@ async function reduceCommitMessage() {
       return;
     }
 
+    // Get settings
+    const settings = settingsService.getAllSettings();
+    const reducePrompt = settings.reducePrompt || getDefaultReducePrompt();
+
+    // Replace placeholder with actual message
+    const prompt = reducePrompt.replace('${message}', currentMessage);
+
+    // Debug mode: Show preview before proceeding
+    if (settings.enableDebugMode) {
+      const shouldProceed = await debugService.showDebugPreview({
+        prompt,
+        action: 'reduce',
+        settings,
+        commitMessage: currentMessage
+      });
+
+      if (!shouldProceed) {
+        return; // User cancelled
+      }
+    }
+
     // Show progress
     await vscode.window.withProgress(
       {
@@ -44,14 +67,6 @@ async function reduceCommitMessage() {
       },
       async() => {
         try {
-          // Get settings
-          const settings = settingsService.getAllSettings();
-          const reducePrompt =
-            settings.reducePrompt || getDefaultReducePrompt();
-
-          // Replace placeholder with actual message
-          const prompt = reducePrompt.replace('${message}', currentMessage);
-
           // Generate reduced message
           const rawReducedMessage = await ollamaService.generateCommitMessage(
             prompt,
@@ -60,7 +75,18 @@ async function reduceCommitMessage() {
 
           if (rawReducedMessage) {
             // Clean up the message using messageCleanup utility
-            const reducedMessage = cleanCommitMessage(rawReducedMessage);
+            const reducedMessage = settings.enableMessageCleanup ?
+              cleanCommitMessage(rawReducedMessage) : rawReducedMessage;
+
+            // Debug mode: Show AI response details
+            if (settings.enableDebugMode) {
+              await debugService.showResponseDebug(
+                rawReducedMessage,
+                reducedMessage,
+                'reduce',
+                settings.enableMessageCleanup
+              );
+            }
 
             if (reducedMessage) {
               // Update the commit message in the git interface
