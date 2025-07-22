@@ -1,6 +1,5 @@
 const vscode = require('vscode');
 const { SettingsService } = require('../services/settingsService');
-const { DEFAULT_CONFIG, CONFIG_SECTION } = require('../utils/constants');
 
 /**
  * Quick command to change the Ollama model
@@ -93,7 +92,7 @@ async function quickPullModel() {
         const axios = require('axios');
 
         // Call Ollama pull API
-        const response = await axios.post(
+        await axios.post(
           `${currentSettings.endpoint}/api/pull`,
           {
             name: modelName.trim()

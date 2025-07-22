@@ -10,7 +10,8 @@ const DEFAULT_CONFIG = {
   contextRange: 3,
   useConventionalCommits: true,
   showDiffConfirmation: false,
-  enableMessageCleanup: true
+  enableMessageCleanup: true,
+  enableDebugMode: false
 };
 
 const CONFIG_SECTION = 'generate-local-commit';
@@ -32,7 +33,8 @@ const COMMAND_IDS = {
   resetPrompt: 'generate-local-commit.resetPrompt',
   testPrompt: 'generate-local-commit.testPrompt',
   toggleMessageCleanup: 'generate-local-commit.toggleMessageCleanup',
-  generatePrSummary: 'generate-local-commit.generatePrSummary'
+  generatePrSummary: 'generate-local-commit.generatePrSummary',
+  toggleDebugMode: 'generate-local-commit.toggleDebugMode'
 };
 
 const VIEW_IDS = {

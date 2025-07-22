@@ -21,6 +21,7 @@ const {
   testPrompt
 } = require('./commands/promptManagement');
 const { toggleMessageCleanup, setQuickActionsProvider } = require('./commands/toggleMessageCleanup');
+const { toggleDebugMode, setQuickActionsProviderForDebug } = require('./commands/toggleDebugMode');
 const { generatePrSummaryCommand } = require('./commands/generatePrSummary');
 const { QuickActionsProvider } = require('./views/quickActionsProvider');
 const { PromptManagementProvider } = require('./views/promptManagementProvider');
@@ -123,6 +124,11 @@ function activate(context) {
       generatePrSummaryCommand
     );
 
+    const toggleDebugModeCommand = vscode.commands.registerCommand(
+      COMMAND_IDS.toggleDebugMode,
+      toggleDebugMode
+    );
+
     // Register view providers immediately
     console.log('Registering view providers...');
 
@@ -132,8 +138,9 @@ function activate(context) {
       quickActionsProvider
     );
 
-    // Set the provider instance for the toggle command to refresh the view
+    // Set the provider instance for the toggle commands to refresh the view
     setQuickActionsProvider(quickActionsProvider);
+    setQuickActionsProviderForDebug(quickActionsProvider);
 
     console.log(
       'Quick actions view provider registered for:',
@@ -176,6 +183,7 @@ function activate(context) {
       testPromptCommand,
       toggleMessageCleanupCommand,
       generatePrSummaryCommandRegistration,
+      toggleDebugModeCommand,
       quickActionsViewDisposable,
       promptManagementViewDisposable,
       historyViewDisposable

@@ -110,6 +110,11 @@
         "command": "generate-local-commit.generatePrSummary",
         "title": "Generate PR Summary",
         "icon": "$(git-pull-request)"
+      },
+      {
+        "command": "generate-local-commit.toggleDebugMode",
+        "title": "Toggle Debug Mode",
+        "icon": "$(debug)"
       }
     ],
     "menus": {
@@ -184,6 +189,9 @@
         },
         {
           "command": "generate-local-commit.generatePrSummary"
+        },
+        {
+          "command": "generate-local-commit.toggleDebugMode"
         }
       ]
     },
@@ -281,6 +289,11 @@
         "generate-local-commit.prSummaryPrompt": {
           "type": "string",
           "description": "Template for the prompt sent to Ollama to generate PR summaries from commit messages. IMPORTANT: Must contain '${commits}' placeholder which will be replaced with the actual commit messages."
+        },
+        "generate-local-commit.enableDebugMode": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable debug mode to show markdown preview of changes and prompts before sending to AI. Helps review what data is being sent to the model."
         }
       }
     }
