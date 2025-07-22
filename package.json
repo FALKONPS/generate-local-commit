@@ -85,6 +85,21 @@
         "command": "generate-local-commit.quickSetMaxTokens",
         "title": "Quick: Set Max Tokens",
         "icon": "$(symbol-numeric)"
+      },
+      {
+        "command": "generate-local-commit.editPrompt",
+        "title": "Edit Prompt Template",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "generate-local-commit.resetPrompt",
+        "title": "Reset Prompt to Default",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "generate-local-commit.testPrompt",
+        "title": "Test Prompt",
+        "icon": "$(play)"
       }
     ],
     "menus": {
@@ -144,6 +159,15 @@
         },
         {
           "command": "generate-local-commit.quickSetMaxTokens"
+        },
+        {
+          "command": "generate-local-commit.editPrompt"
+        },
+        {
+          "command": "generate-local-commit.resetPrompt"
+        },
+        {
+          "command": "generate-local-commit.testPrompt"
         }
       ]
     },
@@ -161,6 +185,10 @@
         {
           "id": "generate-local-commit.quickActionsView",
           "name": "Quick Actions"
+        },
+        {
+          "id": "generate-local-commit.promptManagementView",
+          "name": "Prompt Templates"
         },
         {
           "id": "generate-local-commit.historyView",

@@ -27,11 +27,15 @@ const COMMAND_IDS = {
   quickResetSettings: 'generate-local-commit.quickResetSettings',
   enhanceCommitMessage: 'generate-local-commit.enhanceCommitMessage',
   reduceCommitMessage: 'generate-local-commit.reduceCommitMessage',
+  editPrompt: 'generate-local-commit.editPrompt',
+  resetPrompt: 'generate-local-commit.resetPrompt',
+  testPrompt: 'generate-local-commit.testPrompt',
 };
 
 const VIEW_IDS = {
   quickActionsView: 'generate-local-commit.quickActionsView',
   historyView: 'generate-local-commit.historyView',
+  promptManagementView: 'generate-local-commit.promptManagementView',
 };
 
 const VALIDATION_LIMITS = {
